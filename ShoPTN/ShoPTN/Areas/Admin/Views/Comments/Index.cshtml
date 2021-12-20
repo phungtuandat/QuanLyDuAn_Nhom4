@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ShoPTN.Models.Comment>
+
+@{
+    ViewData["Title"] = "Quản lý bình luận";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NgayDang)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TinhTrang)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImagesPost)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NoiDung)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Product)
+                    </th>
+                    <th width="150"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NgayDang)
+                        </td>
+                        <td>
+                            @if (item.TinhTrang == 1)
+                            {
+                                <span class="badge badge-primary">Chưa xét duyệt</span>
+                            }
+                            else if (item.TinhTrang == 2)
+                            {
+                                <span class="badge badge-primary">Đã xét duyệt</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-primary">Không được xét duyệt</span>
+                            }
+                        </td>
+                        <td>
+                            <img src="~/Images/Comment/@item.ImagesPost" width="100" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoiDung)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer.HoVaTen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.TenSanPham)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdCommnet" class="btn btn-info">Sửa</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdCommnet" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

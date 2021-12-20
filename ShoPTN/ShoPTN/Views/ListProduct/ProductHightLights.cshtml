@@ -1,0 +1,115 @@
+﻿@model ICollection<ShoPTN.Models.SanPham>;
+@{ 
+    ViewBag.Title = "Tìm kiếm được " + Model.Count;
+    var ListHangSx = (List<HangSx>)ViewBag.HangSx;
+    var ListCate = (List<DanhMucCon>)ViewBag.CateChild;
+    var ListTinhTrang = (List<TinhTrang>)ViewBag.TinhTrang;
+}
+<style>
+    img {
+        transition: transform .2s; /* Animation */
+        margin: 0 auto;
+    }
+
+    img:hover {
+        transform: scale(0.9);
+    }
+</style>
+<div class="card border border-info mt-5 shadow">
+    <h5 class="card-header bg-info text-white text-center" style="font-size:20px;font-weight:bold;">SẢN PHẨM NỔI BẬT</h5>
+    <div class="card-body">
+        <form asp-action="FitterProduct" asp-controller="ListProduct">
+            <div class="container row">
+                <label class="mt-2 col-1">Bộ lọc</label>
+                <select class="form-control col-2 ml-2" name="IdHangsx">
+                    <option value="0">----Chọn hãng----</option>
+                    @foreach (var item in ListHangSx)
+                    {
+                        <option value="@item.Id">@item.TenHang</option>
+                    }
+                </select>
+
+                <select class="form-control col-2 ml-2" name="LoaiSanPham">
+                    <option value="0">----Chọn loại sản phẩm----</option>
+                    @foreach (var item in ListCate)
+                    {
+                        <option value="@item.CatelogyChild">@item.TenDanhMuc</option>
+                    }
+                </select>
+
+                <select class="form-control col-2 ml-2" name="TinhTrang">
+                    <option value="0">----Chọn tình trạng----</option>
+                    @foreach (var item in ListTinhTrang)
+                    {
+                        <option value="@item.MaTt">@item.TenTt</option>
+                    }
+                </select>
+                <input type="submit" value="Lọc" class="btn btn-primary ml-2"/>
+            </div>
+        </form>
+        <hr />
+        <div class="row">
+            @if (Model.Count == 0)
+            {
+                <span class="text-white badge badge-info m-auto" style="font-size: 18px;">Hiện tại không có sản phẩm</span>
+            }
+            else
+            {
+                @foreach (var item in Model.OrderByDescending(m => m.GiaBan))// sắp xếp giảm dần và lấy 4 sản ph
+                {
+                    <!--col-md-3 mỗi card chửa 3 cột-->
+                    <div class="card col-md-3 border border-0">
+                        <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct">
+                            <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300">
+                        </a>
+                        <div class="card-body">
+                            <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px">@item.TenSanPham</a>
+                            @if (item.GiaKhuyenMai == 0)
+                            {
+                                <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
+                            }
+                            else
+                            {
+                                <p class="mr-auto">
+                                    <span class="badge badge-info text-white shadow" style="font-size:20px">
+                                        @item.GiaBan.ToString("N0")đ
+                                        <span><strike class="text-white" style="font-size:15px">@item.GiaKhuyenMai.Value.ToString("N0")đ</strike></span>
+                                    </span>
+                                </p>
+                            }
+
+                            <p class="card-text badge badge-success mt-2" style="font-size:15px;">@item.HangSx.TenHang</p>
+                            @if (item.OutOfSock == 1)
+                            {
+                                <p class="card-text badge badge-danger mt-2" style="font-size:15px;">Hết hàng</p>
+                            }
+                            else if (item.OutOfSock == 2)
+                            {
+                                <p class="badge badge-primary mt-2" style="font-size:15px;">Còn hàng</p>
+                            }
+                            else
+                            {
+                                <p class="badge badge-outline-warning mt-2" style="font-size:15px;">Sắp về</p>
+                            }
+
+                            <!-- trạng thái còn hàng hết hàng-->
+                            <!--một máy có thể có nhiều cấu hình nên một máy có nhiều tập hợp thông tin cấu hình-->
+                            <hr />
+                            <div class="row ml-2">
+                                <form asp-action="AddToCart" asp-controller="Cart">
+                                    <input type="hidden" value="@item.IdProduct" name="id" />
+                                    <input type="hidden" value="0" name="quanlity" />
+                                    <button type="submit" value="Mua hàng" class="btn btn-danger">Đặt hàng <i class="fa fa-cart-plus text-white"></i></button>
+                                </form>
+
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px" class="btn btn-primary ml-2">Chi tiết <i class="fa fa-info text-white"></i></a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

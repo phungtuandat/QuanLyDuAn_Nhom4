@@ -1,0 +1,54 @@
+﻿@model ShoPTN.Models.Comment
+
+@{
+    ViewData["Title"] = "Sửa bình luận";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdCommnet" />
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label"></label>
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductId" class="control-label"></label>
+                        <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NoiDung" class="control-label"></label>
+                        <input asp-for="NoiDung" class="form-control" />
+                        <input asp-for="NgayDang" type="hidden" />
+                        <span asp-validation-for="NoiDung" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TinhTrang" class="control-label"></label>
+                        <select asp-for="TinhTrang" class="form-control">
+                            <option value="1">Chưa xét duyệt</option>
+                            <option value="2">Đã xét duyệt</option>
+                            <option value="3">Không được xét duyệt</option>
+                        </select>
+                        <span asp-validation-for="TinhTrang" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImagesPost" class="control-label"></label>
+                        <input asp-for="ImagesPost" type="file" name="file" accept=".jpg,.jpeg,.png" />
+                        <input asp-for="ImagesPost" type="hidden" />
+                        <span asp-validation-for="ImagesPost" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Cập nhật" class="btn btn-primary" /> || <a asp-action="Index" class="btn btn-primary">Trở về danh sách</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

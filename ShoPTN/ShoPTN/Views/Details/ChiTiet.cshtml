@@ -1,0 +1,272 @@
+﻿@model ShoPTN.Models.SanPham
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@{
+    ViewData["Title"] = "Chi tiết " + Model.TenSanPham;
+    var images = Model.ImagesProducts.Where(m => m.IdProduct == Model.IdProduct).ToList();
+    var info = Model.Thongtinkythuatlaptops.Where(m => m.IdProduct == Model.IdProduct).FirstOrDefault();
+    // include KhachHang cho comment
+    var comment = (List<Comment>)ViewBag.ListComment;
+    // show commnet o san pham chi tiet
+    var comments = comment.Where(m => m.ProductId == Model.IdProduct);
+    int count_comment = comment.Where(m => m.ProductId == Model.IdProduct).Count();
+
+    Int32 Id_Customer = Convert.ToInt32(Context.Session.GetInt32("Id"));
+}
+<style>
+    button.carousel-control-next {
+        background-color: transparent;
+    }
+
+    button.carousel-control-prev {
+        /*màu trong xuốt*/
+        background-color: transparent;
+    }
+
+    img.images_comment {
+        transition: transform .2s; /* Animation */
+        margin: 0 auto;
+    }
+
+    img.images_comment:hover {
+        transform: scale(1.1);
+    }
+</style>
+<div class="container-fluid mt-5">
+    <div class="row m-auto">
+        <div class="col-md-5">
+            <img src="~/@Model.FolderName.Replace("wwwroot/","")/@Model.HinhAnh" alt="@Model.TenSanPham">
+            <span style="font-size:26px">@Model.TenSanPham</span>
+            @if (Model.GiaKhuyenMai == 0)
+            {
+                <p><span class="badge badge-danger text-white m-auto" style="font-size:20px">@Model.GiaBan.ToString("N0")đ</span></p>
+            }
+            else
+            {
+                <p class="m-auto" style="margin:auto;">
+                    <span class="badge badge-danger text-white" style="font-size:20px">
+                        @Model.GiaBan.ToString("N0")đ
+                        <span><strike class="text-white" style="font-size:15px">@Model.GiaKhuyenMai.Value.ToString("N0")đ</strike></span>
+                    </span>
+                </p>
+            }
+            <!--Thêm vào giỏ hàng-->
+            <form class="mt-3 col-5" asp-action="AddToCart" asp-controller="Cart">
+                <div class="input-group">
+                    <input type="hidden" class="form-control border border-primary" name="id" value="@Model.IdProduct">
+                    <input type="number" class="form-control border border-primary" name="quanlity">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            Đặt hàng
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!---->
+        </div>
+
+        <div class="col-md-6">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="carousel-inner">
+                    @{int i = 0;}
+                    @foreach (var item in images)
+                    {
+                        if (i == 0)
+                        {
+                            <div class="carousel-item active">
+                                <img src="~/@item.Folder.Replace("wwwroot/","")//@item.HinhAnh" width="50" class="d-block w-100" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item">
+                                <img src="~/@item.Folder.Replace("wwwroot/","")//@item.HinhAnh" width="50" class="d-block w-100" />
+                            </div>
+                        }
+                        i++;
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-target="#carouselExampleFade" data-slide="prev" width="20">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-target="#carouselExampleFade" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!--mô tả-->
+        <div class="col-md-8 mt-3 card-info">
+            <div class="card border border-primary shadow">
+                <h5 class="card-header bg-primary text-black text-white">Mô tả sản phẩm</h5>
+                <div class="card-body">
+                    @Html.Raw(Model.MoTa)
+                </div>
+            </div>
+        </div>
+        <!-- thông số -->
+        <div class="col-4 mt-2">
+            <span style="font-size:18px">Cấu hình :<b> @Model.TenSanPham</b></span>
+            <table class="table table-bordered" style="font-size:18px;">
+                @if (info == null)
+                {
+                    <thead>
+                        <tr>
+                            <th>CPU</th>
+                        </tr>
+                        <tr>
+                            <th>RAM</th>
+                        </tr>
+                        <tr>
+                            <th>Màn Hình</th>
+                        <tr />
+                        <tr>
+                            <th>GPU</th>
+                        </tr>
+                        <tr>
+                            <th>Rom</th>
+                        </tr>
+                        <tr>
+                            <th>Kích thước</th>
+                        </tr>
+                        <tr>
+                            <th>Xuất xứ</th>
+                        </tr>
+                        <tr>
+                            <th>Năm ra mắt</th>>
+                        </tr>
+                    </thead>
+                }
+                else
+                {
+                    <thead>
+                        <tr>
+                            <th>CPU</th>
+                            <td>@info.Cpu</td>
+                        </tr>
+                        <tr>
+                            <th>RAM</th>
+                            <td>@info.Ram</td>
+                        </tr>
+                        <tr>
+                            <th>Màn Hình</th>
+                            <td>@info.ManHinh</td>
+                        <tr />
+                        <tr>
+                            <th>GPU</th>
+                            <td>@info.Gpu</td>
+                        </tr>
+                        <tr>
+                            <th>Rom</th>
+                            <td>@info.Rom</td>
+                        </tr>
+                        <tr>
+                            <th>Kích thước</th>
+                            <td>@info.KichThuoc</td>
+                        </tr>
+                        <tr>
+                            <th>Xuất xứ</th>
+                            <td>@info.XuatXu</td>
+                        </tr>
+                        <tr>
+                            <th>Năm ra mắt</th>
+                            <td>@info.NamRaMat</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Truy vấn các bản khác nếu có khóa ngoại phải sử dụng Include-->
+                    </tbody>
+                }
+            </table>
+
+        </div>
+        <!-- bình luận-->
+        <div class="col-md-8 mt-3" style="max-width:1500px">
+            <div class="card border border-success">
+                <h5 class="card-header bg-success text-white" style="font-size:18px">Bình luận</h5>
+                <div class="card-body">
+                    <div class="container">
+                        <h5 style="font-size:18px"><b>Tổng số bình luận: @count_comment</b></h5>
+                        <!--Post comment in Controller-->
+                        <form asp-action="PostComment" asp-controller="Details" enctype="multipart/form-data">
+                            <div class="row">
+                                <!--Nhấn submit nó gửi tất cả phần tử có trong form trừ nút submit-->
+                                <textarea type="text" class="form-control border-danger col-md-10" name="noidung"></textarea>
+                                <input type="file" name="file" class="mt-1 col-md-2 m-auto" />
+                                <input type="hidden" value="@Model.IdProduct" class="btn btn-primary" name="id" />
+                                <input type="submit" value="Bình luận" class="btn btn-primary mt-3" />
+                            </div>
+                        </form>
+                        <br />
+                        <span style="font-size:18px">Bình luận trước đó</span>
+                        @if (count_comment == 0)
+                        {
+                            <p style="font-size:18px;text-align:center;">Sản phẩm chưa có bình luận</p>
+                        }
+                        else
+                        {
+                            @foreach (var item in comments)
+                            {
+                                @if (item.ImagesPost == "NoImage.jpg")
+                                {
+                                    <div class="media mt-3 border border-dark shadow" style="margin-bottom: 50px; border-radius: 15px 50px 30px; ">
+                                        <br />
+                                        <div class="col-12">
+                                            <div class="media-body">
+                                                <img src="~/Images/Customer/@item.Customer.Avartar" class="mr-3" alt="Hình ảnh người dùng" width="25"> <span class="mt-0" style="font-size:18px"><b>@item.Customer.HoVaTen</b></span>
+                                                <div class="ml-5">
+                                                    <p style="font-size:16px">@item.NoiDung</p>
+                                                    <p class="text-right">@item.NgayDang</p>
+                                                    <!--mỗi sử lý dữ liệu là mỗi form-->
+                                                    @if (item.CustomerId == Id_Customer)
+                                                    {
+                                                        <form asp-controller="Details" asp-action="DeleteComment" class="mt-2 mb-3" style="margin-left:975px;">
+                                                            <input value="@item.IdCommnet" type="hidden" name="Id_Comment" />
+                                                            <input value="@item.ProductId" type="hidden" name="Id_Product" />
+                                                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                        </form>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="media mt-3 border border-dark shadow" style="margin-bottom: 50px; border-radius: 15px 50px 30px; ">
+                                        <br />
+                                        <div class="col-12">
+                                            <div class="media-body">
+                                                <img src="~/Images/Customer/@item.Customer.Avartar" class="mr-3" alt="Hình ảnh người dùng" width="25"> <span class="mt-0"><b>@item.Customer.HoVaTen</b></span>
+                                                <div class="ml-5">
+                                                    <p>@item.NoiDung</p>
+                                                    <img src="~/Images/Comment/@item.ImagesPost" width="300" class="images_comment" style="padding-top:20px;padding-bottom:20px" />
+                                                    <p class="text-right">@item.NgayDang</p>
+                                                    @if (item.CustomerId == Id_Customer)
+                                                    {
+                                                        <form asp-controller="Details" asp-action="DeleteComment" class="mt-2 mb-3" style="margin-left:975px;">
+                                                            <input value="@item.IdCommnet" type="hidden" name="Id_Comment" />
+                                                            <input value="@item.ProductId" type="hidden" name="Id_Product" />
+                                                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                                                        </form>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3"><< Trở về trang chủ</a>
+
+
+
