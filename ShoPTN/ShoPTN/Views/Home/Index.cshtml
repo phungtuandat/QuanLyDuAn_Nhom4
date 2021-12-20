@@ -75,6 +75,7 @@
                                     <input type="hidden" value="0" name="quanlity" />
                                     <button type="submit" value="Mua hàng" class="btn btn-danger">Đặt hàng <i class="fa fa-cart-plus text-white"></i></button>
                                 </form>
+                                <!-- nếu dùng form thì asp-route-id phải để cùng cấp với form còn a  thì để trong thẻ a-->
                                 <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px" class="btn btn-primary ml-2">Chi tiết <i class="fa fa-info text-white"></i></a>
                             </div>
                         </div>
@@ -82,10 +83,6 @@
                 }
             }
         </div>
-        <!--xem tất cả product nổi bật-->
-        <form asp-action="ProductNew" asp-controller="ListProduct" style="margin-left:750px" >
-            <button type="submit" class="btn btn-primary">Xem tất cả @product_new.Count sản phẩm</button>
-        </form>
     </div>
 </div>
 
@@ -149,13 +146,10 @@
                                     <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px" class="btn btn-primary ml-2">Chi tiết <i class="fa fa-info text-white"></i></a>
                                 </div>
                             </div>
-</div>
+                        </div>
                 }
             }
         </div>
-        <form asp-action="ProductHightLights" asp-controller="ListProduct" style="margin-left:750px" >
-            <button type="submit" class="btn btn-primary">Xem tất cả @product_hightlight.Count sản phẩm</button>
-        </form>
     </div>
 </div>
 <!-- customer -->

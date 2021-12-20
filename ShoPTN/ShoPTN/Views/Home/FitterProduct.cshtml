@@ -20,37 +20,6 @@
     <div class="card border border-info mt-5 shadow">
         <h5 class="card-header bg-info text-white text-center" style="font-size:20px;font-weight:bold;">@ViewBag.Title @Model.Count</h5>
         <div class="card-body">
-            <form asp-action="FitterProduct" asp-controller="ListProduct">
-                <div class="container row">
-                    <label class="mt-2 col-1">Bộ lọc</label>
-                    <select class="form-control col-2 ml-2" name="IdHangsx">
-                        <option value="0">----Chọn hãng----</option>
-                        @foreach (var item in ListHangSx)
-                        {
-                            <option value="@item.Id">@item.TenHang</option>
-                        }
-                    </select>
-
-                    <select class="form-control col-2 ml-2" name="LoaiSanPham">
-                        <option value="0">----Chọn loại sản phẩm----</option>
-                        @foreach (var item in ListCate)
-                        {
-                            <option value="@item.CatelogyChild">@item.TenDanhMuc</option>
-                        }
-                    </select>
-
-                    <select class="form-control col-2 ml-2" name="TinhTrang">
-                        <option value="0">----Chọn tình trạng----</option>
-                        @foreach (var item in ListTinhTrang)
-                        {
-                            <option value="@item.MaTt">@item.TenTt</option>
-                        }
-                    </select>
-                    <input type="submit" value="Lọc" class="btn btn-primary ml-2" />
-                    <a asp-action="ProductHightLights" class="btn btn-primary ml-2">Danh sách sản phẩm</a>
-                </div>
-            </form>
-            <hr />
             <div class="row">
                 @if (Model.Count == 0)
                 {
@@ -131,14 +100,6 @@ else
                         }
                     </select>
 
-                    <select class="form-control col-2 ml-2" name="LoaiSanPham">
-                        <option value="0">----Chọn loại sản phẩm----</option>
-                        @foreach (var item in ListCate)
-                        {
-                            <option value="@item.CatelogyChild">@item.TenDanhMuc</option>
-                        }
-                    </select>
-
                     <select class="form-control col-2 ml-2" name="TinhTrang">
                         <option value="0">----Chọn tình trạng----</option>
                         @foreach (var item in ListTinhTrang)
@@ -147,7 +108,6 @@ else
                         }
                     </select>
                     <input type="submit" value="Lọc" class="btn btn-primary ml-2" />
-                    <a asp-action="ProductHightLights" class="btn btn-primary ml-2">Danh sách sản phẩm</a>
                 </div>
             </form>
             <hr />
@@ -155,3 +115,5 @@ else
         </div>
     </div> 
 }
+
+<a asp-action="Index" class="btn btn-primary mt-2"><< Trở về trang chủ</a>

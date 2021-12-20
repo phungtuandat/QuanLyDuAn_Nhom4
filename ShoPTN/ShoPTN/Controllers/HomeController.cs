@@ -111,5 +111,75 @@ namespace ShoPTN.Controllers
             return View(product);
         }
 
+        public IActionResult Product_Catechild(int id)
+        {
+            // lấy danh sách sản phẩm ở CateChild có mã chứa IdDanhMucSanPham = Id truyền vào ở bảng CateChild
+            // 5 = 5 truy xuất ở 2 bảng
+            // lấy các danh mục con thuộc cái id này
+            ViewBag.HangSx = _context.HangSxes.ToList();
+            ViewBag.CateChild = _context.DanhMucCons.ToList();
+            ViewBag.TinhTrang = _context.TinhTrangs.ToList();
+            ViewBag.Id = _context.DanhMucCons.Where(m=>m.CatelogyChild == id).FirstOrDefault();
+            var product = _context.SanPhams.Where(m => m.CateChild==id).Include(m => m.HangSx).ToList();
+            return View(product);
+        }
+
+        // Lọc sản phẩm
+        [HttpPost]
+        public IActionResult FitterProduct(int IdHangsx, int LoaiSanPham, int TinhTrang, int id)
+        {
+            ViewBag.HangSx = _context.HangSxes.ToList();
+            ViewBag.CateChild = _context.DanhMucCons.ToList();
+            ViewBag.TinhTrang = _context.TinhTrangs.ToList();
+            if (IdHangsx == 0 && LoaiSanPham == 0 && TinhTrang == 0)
+            {
+                return View();
+            }
+            else
+            {
+                if (IdHangsx != 0 && LoaiSanPham != 0 && TinhTrang != 0)
+                {
+                    // trả về trang VỚI  ACTION
+                    var t = _context.SanPhams.Where(m => m.IdTinhTrang == TinhTrang && m.CateChild == LoaiSanPham && m.HangSxId == IdHangsx && m.CateChild == id).Include(m=>m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (IdHangsx != 0 && LoaiSanPham == 0 && TinhTrang == 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.HangSxId == IdHangsx && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (LoaiSanPham != 0 && IdHangsx == 0 && TinhTrang == 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.CateChild == LoaiSanPham && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (LoaiSanPham == 0 && IdHangsx == 0 && TinhTrang != 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.IdTinhTrang == TinhTrang && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (IdHangsx != 0 && LoaiSanPham == 0 && TinhTrang != 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.HangSxId == IdHangsx && m.IdTinhTrang == TinhTrang && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (IdHangsx != 0 && LoaiSanPham != 0 && TinhTrang == 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.HangSxId == IdHangsx && m.CateChild == LoaiSanPham && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else if (IdHangsx == 0 && LoaiSanPham != 0 && TinhTrang != 0)
+                {
+                    var t = _context.SanPhams.Where(m => m.HangSxId == IdHangsx && m.CateChild == LoaiSanPham && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+                else
+                {
+                    var t = _context.SanPhams.Where(m => m.CateChild == LoaiSanPham && m.IdTinhTrang == TinhTrang && m.CateChild == id).Include(m => m.HangSx).ToList();
+                    return View(t);
+                }
+            }
+        }
+
     }
 }

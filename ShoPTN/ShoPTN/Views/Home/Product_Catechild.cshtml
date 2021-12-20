@@ -4,6 +4,7 @@
     var ListHangSx = (List<HangSx>)ViewBag.HangSx;
     var ListCate = (List<DanhMucCon>)ViewBag.CateChild;
     var ListTinhTrang = (List<TinhTrang>)ViewBag.TinhTrang;
+    var Id_CateChild = (DanhMucCon)ViewBag.Id;
 }
 <style>
     img {
@@ -16,9 +17,9 @@
     }
 </style>
 <div class="card border border-info mt-5 shadow">
-    <h5 class="card-header bg-info text-white text-center" style="font-size:20px;font-weight:bold;">SẢN PHẨM NỔI BẬT</h5>
+    <h5 class="card-header bg-info text-white text-center" style="font-size:20px;font-weight:bold;">@ViewBag.Title</h5>
     <div class="card-body">
-        <form asp-action="FitterProduct" asp-controller="ListProduct">
+        <form asp-action="FitterProduct" asp-controller="Home" asp-route-id="@Id_CateChild.CatelogyChild">
             <div class="container row">
                 <label class="mt-2 col-1">Bộ lọc</label>
                 <select class="form-control col-2 ml-2" name="IdHangsx">

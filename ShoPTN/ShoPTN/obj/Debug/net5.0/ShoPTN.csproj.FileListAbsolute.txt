@@ -491,9 +491,7 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Thongt
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Thongtinkythuatlaptop\Index.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\Index.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\ProductHightLights.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\FitterProduct.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\FitterProductNew.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\ProductNew.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\SearchDanhMuc.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\ShoPTN.csproj.AssemblyReference.cache
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Product_Catechild.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\FitterProduct.cshtml.g.cs

@@ -10,13 +10,13 @@
     <div class="card-body">
         <form>
             <div class="card mt-5 border border-dark">
-                <h5 class="card-header col-2 bg-danger text-white text-center shadow">Danh mục sản phẩm</h5>
+                <h5 class="card-header col-2 bg-danger text-white text-center shadow">Danh mục</h5>
                 <div class="card-body">
                     <div class="row">
                         @foreach (var item in list_catechild)
                         {
                             <div class="col-2 mt-1 mb-3 text-center" style="font-weight:bold">
-                                <a asp-controller="Home" asp-action="SearchDanhMuc" asp-route-id="@item.CatelogyChild">@item.TenDanhMuc</a>
+                                <a asp-controller="Home" asp-action="Product_Catechild" asp-route-id="@item.CatelogyChild">@item.TenDanhMuc</a>
                             </div>
                         }
                     </div>
