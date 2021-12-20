@@ -496,3 +496,4 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\Fitter
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\FitterProductNew.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\ListProduct\ProductNew.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\SearchDanhMuc.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\ShoPTN.csproj.AssemblyReference.cache

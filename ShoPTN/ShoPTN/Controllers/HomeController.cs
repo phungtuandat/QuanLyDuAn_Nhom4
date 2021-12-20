@@ -105,6 +105,8 @@ namespace ShoPTN.Controllers
         {
             // lấy danh sách sản phẩm ở CateChild có mã chứa IdDanhMucSanPham = Id truyền vào ở bảng CateChild
             // 5 = 5 truy xuất ở 2 bảng
+            // lấy các danh mục con thuộc cái id này
+            ViewBag.CateChild = _context.DanhMucCons.Where(m=>m.IdDanhMucSanPham == id).ToList();
             var product = _context.SanPhams.Where(m => m.CateChildNavigation.IdDanhMucSanPham == id).Include(m=>m.HangSx).ToList();
             return View(product);
         }
