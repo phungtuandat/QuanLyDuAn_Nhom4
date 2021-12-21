@@ -75,11 +75,17 @@ namespace ShoPTN.Controllers
                 if (t != null)
                 {
                     ModelState.AddModelError("LoginError", "");
+                    var order_new = _context.DatHangs.Where(m => m.KhachHangId == t.IdCustomer && m.TinhTrang == 0);
+                    var order_check = _context.DatHangs.Where(m => m.KhachHangId == t.IdCustomer && m.TinhTrang == 0);
+                    var order_transport = _context.DatHangs.Where(m => m.KhachHangId == t.IdCustomer && m.TinhTrang == 0);
+                    var order_cancel = _context.DatHangs.Where(m => m.KhachHangId == t.IdCustomer && m.TinhTrang == 0);
+                    var order_delivered = _context.DatHangs.Where(m => m.KhachHangId == t.IdCustomer && m.TinhTrang == 0);
                     // đăng ký seesion va luu gia tri 
                     HttpContext.Session.SetInt32("Id", t.IdCustomer);
                     HttpContext.Session.SetString("FullName", t.HoVaTen);
                     HttpContext.Session.SetString("UserName", t.TenDangNhap);
                     HttpContext.Session.SetString("Avatar", t.Avartar);
+                    HttpContext.Session.SetInt32("OrderXacNhan", order_new.Count());
                     // chuyển hướng đến action nào
                     return RedirectToAction("Index", "Home");
                 }
