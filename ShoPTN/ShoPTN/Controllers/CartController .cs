@@ -117,5 +117,55 @@ namespace ShoPTN.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
+        public IActionResult CheckOut()
+        {
+            return View(GetCartItems());
+        }
+
+        [HttpPost]
+        public IActionResult Orders(string address,string phone)
+        {
+            var session = HttpContext.Session;
+            string jsoncart = session.GetString("ShopCart");
+            var cartItem = JsonConvert.DeserializeObject<List<Cart>>(jsoncart);
+            // lấy session khách hàng
+            int Customer = Convert.ToInt32(HttpContext.Session.GetInt32("Id"));
+            // tạo đại diện cho đặt hàng
+            var order = new DatHang();
+            order.KhachHangId = Customer;
+            order.NgayDatHang = DateTime.Now;
+            order.TinhTrang = 0;
+            order.DiaChiGiaoHang = address;
+            order.DienThoaiGiaoHang = phone;
+            order.TongTien = 0;
+            // phải lưu đơn hàng vào database sau đó thực hiện tiếp không thì thêm vào nó sẻ lỗi vì không tồn tại ID_DatHang
+            _context.DatHangs.Add(order);
+            _context.SaveChanges();
+            // ĐẶT HÀNG CHI TIẾT
+            int sum_money = 0;
+            foreach (var item in cartItem)
+            {
+                // có thể có nhiều đặt hàng chi tiết nên khởi tạo đối tượng trong foearch chạy nhiều lần
+                var order_details = new DatHangChiTiet();
+                // thêm sản phẩm vào đặt hàng chi tiết
+                order_details.DatHangId = order.Id;
+                order_details.LapTopId = item.Products.IdProduct;
+                order_details.SoLuong = (short?)item.Quantity;
+                order_details.ThanhTien = item.Products.GiaBan;
+                sum_money += Convert.ToInt32(order_details.ThanhTien);
+                _context.DatHangChiTiets.Add(order_details);
+                // cập nhật xóa số lượng
+                var id_pro = _context.SanPhams.Where(m => m.IdProduct == item.Products.IdProduct).FirstOrDefault();
+                id_pro.SoLuong = id_pro.SoLuong - item.Quantity;
+                _context.SanPhams.Update(id_pro);
+            }
+            order.TongTien = sum_money;
+            _context.DatHangs.Update(order);
+            _context.SaveChanges();
+            // xóa session giỏ hàng
+            HttpContext.Session.Remove("ShopCart");
+            return View();
+        }
+
     }
 }

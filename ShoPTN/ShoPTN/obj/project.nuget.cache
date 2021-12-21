@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "UinDniK2zGsNzXoklNPBZGjGVhirKkNEyUn2O+ouLqWrFKbtIX3rQkSJ7fMxoZDhQ2G1YlfS1J5WPBHTKGfVyw==",
+  "dgSpecHash": "rNUYwssy5w5yEMnXLhohWvGPv8gG7CKtnaAKSAiJI1FbAOj7Ch+zU1US6sBVgqRz1PoxjeRY+lSW/SZ9LswgtQ==",
   "success": true,
   "projectFilePath": "D:\\DoAnASP,NETCORE\\ShoPTN\\ShoPTN\\ShoPTN.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\fontawesome\\4.7.0\\fontawesome.4.7.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\5.0.12\\microsoft.aspnetcore.mvc.razor.extensions.5.0.12.nupkg.sha512",

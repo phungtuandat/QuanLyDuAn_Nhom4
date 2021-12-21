@@ -124,6 +124,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                     ModelState.AddModelError("ErrorExit", "Vui lòng chọn hình ảnh");
                     return View(sanPham);
                 }
+                if(sanPham.SoLuong > 0) sanPham.OutOfSock = 2;
                 _context.Add(sanPham);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -192,6 +193,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                             sanPham.HinhAnh = Upload(file, sanPham.FolderName);
                         }
                     }
+                    if (sanPham.SoLuong > 0) sanPham.OutOfSock = 2;
                     _context.Update(sanPham);
                     await _context.SaveChangesAsync();
                 }

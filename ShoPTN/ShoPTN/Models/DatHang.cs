@@ -42,6 +42,9 @@ namespace ShoPTN.Models
         [Display(Name = "Tình trạng")]
         public short? TinhTrang { get; set; }
 
+        [Display(Name = "Tổng tiền")]
+        public int TongTien { get; set; }
+
         [Display(Name = "Khách hàng")]
         [ForeignKey(nameof(KhachHangId))]
         [InverseProperty("DatHangs")]

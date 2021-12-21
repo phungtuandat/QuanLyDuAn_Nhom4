@@ -39,7 +39,7 @@
                             <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300">
                          </a>
                         <div class="card-body">
-                            <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px">@item.TenSanPham</a>
+                            <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:18px">@item.TenSanPham</a>
                             @if (item.GiaKhuyenMai == 0)
                             {
                                 <p><span class="badge badge-primary text-white" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
@@ -105,7 +105,7 @@
                             <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300" />
                         </a>
                             <div class="card-body">
-                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px">@item.TenSanPham</a>
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:18px">@item.TenSanPham</a>
                                 @if (item.GiaKhuyenMai == 0)
                                 {
                                     <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
