@@ -151,7 +151,7 @@ namespace ShoPTN.Controllers
                 order_details.DatHangId = order.Id;
                 order_details.LapTopId = item.Products.IdProduct;
                 order_details.SoLuong = (short?)item.Quantity;
-                order_details.ThanhTien = item.Products.GiaBan;
+                order_details.ThanhTien = item.Products.GiaBan * (short?)item.Quantity;
                 sum_money += Convert.ToInt32(order_details.ThanhTien);
                 _context.DatHangChiTiets.Add(order_details);
                 // cập nhật xóa số lượng

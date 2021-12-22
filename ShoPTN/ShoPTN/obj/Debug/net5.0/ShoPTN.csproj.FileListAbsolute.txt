@@ -497,3 +497,4 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Product_Catec
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\FitterProduct.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\CheckOut.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\Orders.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\OrderList.cshtml.g.cs

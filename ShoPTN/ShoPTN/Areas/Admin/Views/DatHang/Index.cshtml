@@ -28,72 +28,78 @@
                     <th>
                         @Html.DisplayNameFor(model => model.KhachHang)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TongTien)
+                    </th>
                     <th width="150"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DienThoaiGiaoHang)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiaChiGiaoHang)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NgayDatHang)
-                        </td>
-                        <td>
-                            @if (item.TinhTrang == 0)
-                            {
-                                <span class="badge badge-info">Đơn hàng mới</span>
-                            }
-                            else if (item.TinhTrang == 1)
-                            {
-                                <span class="badge badge-success">Đang xác nhận</span>
-                            }
-                            else if (item.TinhTrang == 2)
-                            {
-                                <span class="badge badge-danger">Đã hủy</span>
-                            }
-                            else if (item.TinhTrang == 3)
-                            {
-                                <span class="badge badge-warning">Đang đóng gói</span>
-                            }
-                            else if (item.TinhTrang == 4)
-                            {
-                                <span class="badge badge-warning">Đang gửi vận chuyển</span>
-                            }
-                            else if (item.TinhTrang == 5)
-                            {
-                                <span class="badge badge-primary">Đang chuyển</span>
-                            }
-                            else if (item.TinhTrang == 6)
-                            {
-                                <span class="badge badge-danger">Thất bại</span>
-                            }
-                            else if (item.TinhTrang == 7)
-                            {
-                                <span class="badge badge-warning">Đang chuyển hoàn</span>
-                            }
-                            else if (item.TinhTrang == 8)
-                            {
-                                <span class="badge badge-success">Đã chuyển hoàn</span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-primary">Thành công</span>
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.KhachHang.HoVaTen)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Sửa</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DienThoaiGiaoHang)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiaChiGiaoHang)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NgayDatHang)
+                    </td>
+                    <td>
+                        @if (item.TinhTrang == 0)
+                        {
+                            <span class="badge badge-info">Đơn hàng mới</span>
+                        }
+                        else if (item.TinhTrang == 1)
+                        {
+                            <span class="badge badge-success">Đang xác nhận</span>
+                        }
+                        else if (item.TinhTrang == 2)
+                        {
+                            <span class="badge badge-danger">Đã hủy</span>
+                        }
+                        else if (item.TinhTrang == 3)
+                        {
+                            <span class="badge badge-warning">Đang đóng gói</span>
+                        }
+                        else if (item.TinhTrang == 4)
+                        {
+                            <span class="badge badge-warning">Đang gửi vận chuyển</span>
+                        }
+                        else if (item.TinhTrang == 5)
+                        {
+                            <span class="badge badge-primary">Đang chuyển</span>
+                        }
+                        else if (item.TinhTrang == 6)
+                        {
+                            <span class="badge badge-danger">Thất bại</span>
+                        }
+                        else if (item.TinhTrang == 7)
+                        {
+                            <span class="badge badge-warning">Đang chuyển hoàn</span>
+                        }
+                        else if (item.TinhTrang == 8)
+                        {
+                            <span class="badge badge-success">Đã chuyển hoàn</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-primary">Thành công</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KhachHang.HoVaTen)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TongTien)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Sửa</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
