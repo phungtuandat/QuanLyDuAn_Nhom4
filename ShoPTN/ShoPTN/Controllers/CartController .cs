@@ -150,6 +150,7 @@ namespace ShoPTN.Controllers
                 // thêm sản phẩm vào đặt hàng chi tiết
                 order_details.DatHangId = order.Id;
                 order_details.LapTopId = item.Products.IdProduct;
+                order_details.DonGia = item.Products.GiaBan;
                 order_details.SoLuong = (short?)item.Quantity;
                 order_details.ThanhTien = item.Products.GiaBan * (short?)item.Quantity;
                 sum_money += Convert.ToInt32(order_details.ThanhTien);

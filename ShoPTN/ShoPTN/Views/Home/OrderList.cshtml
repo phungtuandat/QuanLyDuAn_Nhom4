@@ -70,8 +70,11 @@
                                 }
                             </div>
                             <hr />
-                            <a class="btn btn-danger text-white" asp-route-id="@item.Id">Hủy</a>
-                            <a class="btn btn-primary text-white" asp-route-id="@item.Id">Chi tiết</a>
+                            @if (item.TinhTrang == 0)
+                            {
+                                <a class="btn btn-danger text-white" asp-route-id="@item.Id" asp-action="CancelOrder">Hủy</a>
+                            }
+                            <a class="btn btn-primary text-white" asp-route-id="@item.Id" asp-action="OrderDetail">Chi tiết</a>
                         </div>
                     </div>
                 </div>

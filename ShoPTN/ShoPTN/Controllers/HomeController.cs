@@ -188,5 +188,34 @@ namespace ShoPTN.Controllers
             return View(_context.DatHangs.Where(m=>m.KhachHangId == id_customer).Include(m=>m.DatHangChiTiets).Include(m=>m.KhachHang).ToList());
         }
 
+        public IActionResult CancelOrder(int id)
+        {
+            var order = _context.DatHangs.Where(m=>m.Id == id).FirstOrDefault();
+            var order_details = _context.DatHangChiTiets.Where(m => m.DatHangId == id).ToList();
+            order.TinhTrang = 2;
+            foreach(var item in order_details)
+            {
+                // lấy sản phẩm trong đặt hàng chi tiết
+                var product = _context.SanPhams.Where(m => m.IdProduct == item.LapTopId).FirstOrDefault();
+                // cập nhật số lượng trong kho trong bảng Đặt hàng chi tiết
+                product.SoLuong += item.SoLuong;
+                // update và Lưu
+                _context.SanPhams.Update(product);
+                _context.SaveChanges();
+            }
+            _context.DatHangs.Update(order);
+            _context.SaveChanges();
+            return RedirectToAction("OrderList");
+        }
+
+        public IActionResult OrderDetail(int id)
+        {
+            var order = _context.DatHangChiTiets.Where(m => m.DatHangId == id).Include(m=>m.LapTop).Include(m=>m.DatHang).ToList();
+            foreach(var item in order)
+            {
+                ViewBag.InfoProduct = _context.Thongtinkythuatlaptops.Where(m => m.IdProduct == item.LapTopId).ToList();
+            }    
+            return View(order);
+        }
     }
 }

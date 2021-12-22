@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ShoPTN.Models.DatHangChiTiet>
+@{
+    ViewBag.Title = "Đơn chi tiết";
+    var info_pro = (List<Thongtinkythuatlaptop>)ViewBag.InfoProduct;
+}
+
+<div class="card mt-3 shadow border border-info">
+    <h5 class="card-header bg-info text-white text-center font-weight-bold mt-3">@ViewBag.Title</h5>
+    <div class="card-body">
+        <div class="card-deck">
+            @foreach (var item in Model)
+            {
+                // truy xuất giữa các bảng
+                <div class="col-12">
+                    <div class="row mt-3">
+                        <img src="~/@item.LapTop.FolderName.Replace("wwwroot/","")/@item.LapTop.HinhAnh" alt="@item.LapTop.TenSanPham">
+                        <div class="card-body col-7">
+                            <h5 class="text-center">Mã ID: @item.Id</h5>
+                            <h5 class="font-weight-light">Mã Đặt hàng: @item.DatHangId</h5>
+                            <hr />
+                            <h5>Thông tin sản phẩm</h5>
+                            <hr />
+
+                            @foreach (var info in info_pro)
+                            {
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>CPU</th>
+                                        <td>@info.Cpu</td>
+                                    </tr>
+                                    <tr>
+                                        <th>RAM</th>
+                                        <td>@info.Ram</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Màn Hình</th>
+                                        <td>@info.ManHinh</td>
+                                    <tr />
+                                    <tr>
+                                        <th>GPU</th>
+                                        <td>@info.Gpu</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rom</th>
+                                        <td>@info.Rom</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kích thước</th>
+                                        <td>@info.KichThuoc</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Xuất xứ</th>
+                                        <td>@info.XuatXu</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Năm ra mắt</th>
+                                        <td>@info.NamRaMat</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--Truy vấn các bản khác nếu có khóa ngoại phải sử dụng Include-->
+                                </tbody>
+                            </table>
+                            }
+
+                            <hr />
+                            <h5>Thông tin hóa đơn</h5>
+                            <hr />
+                            <h5 class="font-weight-light text-dark">Đơn giá: @item.DonGia.Value.ToString("N0")</h5>
+                            <h5 class="font-weight-light text-dark">  Số lượng: @item.SoLuong</h5>
+                            <hr />
+                            <h5 class="font-weight-lighter text-right text-dark">Thành tiền: @item.ThanhTien.Value.ToString("N0")</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
