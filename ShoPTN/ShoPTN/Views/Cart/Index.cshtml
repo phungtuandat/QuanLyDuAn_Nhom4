@@ -1,0 +1,69 @@
+﻿@model List<ShoPTN.Models.Cart>
+<div class="container-fluid mt-5">
+    <div class="card border-info" style="border-radius:20px;">
+        <h3 class="card-header bg-info text-white">Giỏ hàng của bạn</h3>
+        <div class="card-body">
+
+            @if (Model.Count > 0)
+            {
+                int num = 1;        // số thứ tự
+                int amount = 0;     // thành tiền
+                int total = 0;      // tổng tiền
+
+                <table class="table" style="width: 90%; margin-left: 85px;">
+                    <tr>
+                        <th>STT</th>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var i in Model)
+                    {
+                        amount = i.Products.GiaBan * i.Quantity;
+                        total += amount;
+                        <tr class="align-middle">
+                            <td>@(num++)</td>
+                            <td>
+                                <!-- cart là một sản phẩm nên có chứa các thuộc tính của sàn phẩm-->
+                                <img src="~/@i.Products.FolderName.Replace("wwwroot/","")/@i.Products.HinhAnh" class="img-thumbnail" width="50" />
+                                @(i.Products.TenSanPham)
+                            </td>
+                            <td>@(i.Products.GiaBan.ToString("n0"))đ</td>
+                            <td>
+                                <form asp-action="UpdateItem" method="post">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input name="id" type="hidden" asp-for="@(i.Products.IdProduct)" />
+                                            <input name="quantity" type="number" asp-for="@(i.Quantity)" class="form-control" />
+                                        </div>
+                                        <div class="col">
+                                            <input class="btn btn-warning" type="submit" value="Cập nhật" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>@(amount.ToString("n0"))đ</td>
+                            <td><a asp-action="RemoveItem" asp-route-id="@i.Products.IdProduct" class="text-danger"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="text-end">Thành tiền</td>
+                        <td colspan="2"><strong class="text-danger">@(total.ToString("n0"))đ</strong></td>
+                    </tr>
+                </table>
+                <div class="text-end" style="padding-bottom: 20px; margin-left: 180px;">
+                    <a class="btn btn-info" asp-action="CheckOut">Thanh toán</a>
+                </div>
+            }
+            else
+            {
+                <p class="alert alert-danger">Giỏ hàng rỗng!</p>
+            }
+            <div class="text-end" style="padding-bottom: 20px; margin-left: 1300px;">
+                <a class="btn btn-info" asp-controller="Home" asp-action="Index" style="text-decoration:none">Về trang sản phẩm</a>
+            </div>
+        </div>
+    </div>
+</div>

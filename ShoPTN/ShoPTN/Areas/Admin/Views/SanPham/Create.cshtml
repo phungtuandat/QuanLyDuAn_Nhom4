@@ -1,0 +1,124 @@
+﻿@model ShoPTN.Models.SanPham
+
+@{
+    ViewData["Title"] = "Tạo mới sản phẩm";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create" enctype="multipart/form-data" class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="HangSxId" class="control-label"></label>
+                        <select asp-for="HangSxId" class="form-control" asp-items="ViewBag.HangSxId"></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="CateChild" class="control-label"></label>
+                        <select asp-for="CateChild" class="form-control" asp-items="ViewBag.CateChild"></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="IdNhanVien" class="control-label"></label>
+                        <select asp-for="IdNhanVien" class="form-control" asp-items="ViewBag.IdNhanVien"></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="IdTinhTrang" class="control-label"></label>
+                        <select asp-for="IdTinhTrang" class="form-control" asp-items="ViewBag.IdTinhTrang"></select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="TenSanPham" class="control-label"></label>
+                        <input asp-for="TenSanPham" class="form-control" />
+                        <span asp-validation-for="TenSanPham" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="HinhAnh" class="control-label"></label>
+                        <br />
+                        <input asp-for="HinhAnh" type="file" name="file" accept=".jpg,.jpeg,.png" />
+                        <span asp-validation-for="HinhAnh" class="text-danger"></span>
+                        @if (ViewData.ModelState["ErrorExit"] != null)
+                        {
+                            @if (!String.IsNullOrEmpty(ViewData.ModelState["ErrorExit"].Errors[0].ErrorMessage))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                    <strong>@ViewData.ModelState["ErrorExit"].Errors[0].ErrorMessage</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="GiaBan" class="control-label"></label>
+                        <input asp-for="GiaBan" class="form-control" />
+                        <span asp-validation-for="GiaBan" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="GiaKhuyenMai" class="control-label"></label>
+                        <input asp-for="GiaKhuyenMai" class="form-control" />
+                        <span asp-validation-for="GiaKhuyenMai" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label asp-for="MoTa" class="control-label"></label>
+                        <textarea asp-for="MoTa" class="form-control" id="editor"></textarea>
+                        <span asp-validation-for="MoTa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="OutOfSock" class="control-label"></label>
+                        <select asp-for="OutOfSock" class="form-control">
+                            <option value="1">Hết hàng</option>
+                            <option value="2">Còn hàng</option>
+                            <option value="3">Sắp về</option>
+                        </select>
+                        <span asp-validation-for="OutOfSock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="TrangThai" class="control-label"></label>
+                        <select asp-for="TrangThai" class="form-control">
+                            <option value="1">Ẩn đi</option>
+                            <option value="2">Hiện</option>
+                        </select>
+                        <span asp-validation-for="TrangThai" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="ProductNew" class="control-label"></label>
+                        <select asp-for="ProductNew" class="form-control">
+                            <option value="1">Mới</option>
+                            <option value="2">Không</option>
+                        </select>
+                        <span asp-validation-for="ProductNew" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="ProductHighlights" class="control-label"></label>
+                        <select asp-for="ProductHighlights" class="form-control">
+                            <option value="1">Nổi bật</option>
+                            <option value="2">Không</option>
+                        </select>
+                        <span asp-validation-for="ProductHighlights" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SoLuong" class="control-label"></label>
+                        <input asp-for="SoLuong" class="form-control" />
+                        <span asp-validation-for="SoLuong" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group col=md-12 ml-3">
+                        <input type="submit" value="Create" class="btn btn-primary" /> || <a asp-action="Index" class="btn btn-primary">Trở về danh sách</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    CKEDITOR.replace('editor', {
+        height: 200
+    });
+</script>

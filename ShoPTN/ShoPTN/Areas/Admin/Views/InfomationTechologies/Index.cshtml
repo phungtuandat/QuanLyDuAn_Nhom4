@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ShoPTN.Models.InfomationTechology>
+
+@{
+    ViewData["Title"] = "Quản lý bài viết";
+}
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NgayDang)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LuotXem)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NoiDung)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Avatar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TinhTrang)
+                    </th>
+                    <th width="150"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NgayDang)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LuotXem)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoiDung)
+                        </td>
+                        <td>
+                            <img src="~/Images/BaiViet/@item.Avatar" width="100"/>
+                        </td>
+                        <td>
+                            @if (item.TinhTrang == 0)
+                            {
+                                <span class="badge badge-danger" style="font-size:15px">Bài viết mới</span>
+                            }
+                            else if (item.TinhTrang == 1)
+                            {
+                                <span class="badge badge-danger" style="font-size:15px">Đã duyệt</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger" style="font-size:15px">Hủy duyệt</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdBaiViet" class="btn btn-info">Sửa</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdBaiViet" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

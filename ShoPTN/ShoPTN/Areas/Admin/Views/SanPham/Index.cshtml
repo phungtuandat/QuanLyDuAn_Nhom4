@@ -1,0 +1,142 @@
+﻿@model IEnumerable<ShoPTN.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+        </p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TenSanPham)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HinhAnh)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GiaBan)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OutOfSock)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TrangThai)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductNew)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductHighlights)
+                    </th>
+                    <th>
+
+                        @Html.DisplayNameFor(model => model.CateChildNavigation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HangSx)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdNhanVienNavigation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTinhTrangNavigation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SoLuong)
+                    </th>
+                    <th width="120"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td width="75">
+                            @Html.DisplayFor(modelItem => item.TenSanPham)
+                        </td>
+                        <td width="40">
+                            @if (item.FolderName == null)
+                            {
+                                <img src="~/Images/Products/NoImage.jpg" width="100" />
+                            }
+                            else
+                            {<img src="~/@item.FolderName.Replace("wwwroot/", "")//@item.HinhAnh" width="100" />}
+                        </td>
+                        <td width="30">
+                            @Html.DisplayFor(modelItem => item.GiaBan)
+                        </td>
+                        <td width="30">
+                            @if (item.OutOfSock == 1)
+                            {
+                                <span class="badge badge-outline-primary">Hết hàng</span>
+                            }
+                            else if (item.OutOfSock == 2)
+                            {
+                                <span class="badge badge-outline-primary">Còn hàng</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outline-primary">Sắp về</span>
+                            }
+                        </td>
+                        <td width="30">
+                            @if (item.TrangThai == 1)
+                            {
+                                <span class="badge badge-outline-primary">Hiện</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outline-primary">Ẩn</span>
+                            }
+                        </td>
+                        <td width="30">
+                            @if (item.ProductNew == 1)
+                            {
+                                <span class="badge badge-outline-primary">Mới</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outline-primary">Không</span>
+                            }
+                        </td>
+                        <td width="30">
+                            @if (item.ProductNew == 1)
+                            {
+                                <span class="badge badge-outline-primary">Nổi bật</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outline-primary">Không</span>
+                            }
+                        </td>
+                        <td width="50">
+                            @Html.DisplayFor(modelItem => item.CateChildNavigation.TenDanhMuc)
+                        </td>
+                        <td width="50">
+                            @Html.DisplayFor(modelItem => item.HangSx.TenHang)
+                        </td>
+                        <td width="50">
+                            @Html.DisplayFor(modelItem => item.IdNhanVienNavigation.HoVaTen)
+                        </td>
+                        <td width="50">
+                            @Html.DisplayFor(modelItem => item.IdTinhTrangNavigation.TenTt)
+                        </td>
+                        <td width="30">
+                            @Html.DisplayFor(modelItem => item.SoLuong)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdProduct" class="btn btn-info">Sửa</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdProduct" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ShoPTN.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Quản lý khách hàng";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HoVaTen)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DienThoai)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiaChi)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TenDangNhap)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MatKhau)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Avartar)
+                    </th>
+                    <th width="150"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoVaTen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DienThoai)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiaChi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenDangNhap)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MatKhau)
+                        </td>
+                        <td>
+                            <img src="~/Images/Customer/@item.Avartar" width="100" />
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdCustomer" class="btn btn-info">Sửa</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdCustomer" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

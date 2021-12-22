@@ -1,0 +1,41 @@
+﻿@model ShoPTN.Models.ImagesProduct
+
+@{
+    ViewData["Title"] = "Tạo mới";
+}
+
+<div class="card border border-primary">
+    <h5 class="card-header bg-primary text-white">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="IdProduct" class="control-label"></label>
+                        <select asp-for="IdProduct" class="form-control" asp-items="ViewBag.IdProduct"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HinhAnh" class="control-label"></label>
+                        <input asp-for="HinhAnh" type="file" name="file" accept=".jpg,.jpeg,.png">
+                        @if (!String.IsNullOrEmpty(ViewData.ModelState["ErorrImages"].Errors[0].ErrorMessage))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                <strong>@ViewData.ModelState["ErorrImages"].Errors[0].ErrorMessage</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" /> ||  <a asp-action="Index" class="btn btn-primary">Trở về danh sách</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ShoPTN.Models.DanhMucSanPham>
+
+@{
+    ViewData["Title"] = "Quản lý danh mục";
+}
+<div class="card border border-primary">
+    <h5 class="card-header text-white bg-primary">@ViewData["Title"]</h5>
+    <div class="card-body">
+        <p>
+            <!--Su kien nao duoc su dung-->
+            <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TenDanhMuc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TinhTrang)
+                    </th>
+                    <th width="150"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenDanhMuc)
+                        </td>
+                        <td>
+                            @if (item.TinhTrang == 1)
+                            {
+                                <span class="badge badge-danger" style="font-size:15px">Ẩn</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-primary" style="font-size:15px">Hiện</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdDanhMuc" class="btn btn-info">Sửa</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IdDanhMuc" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
