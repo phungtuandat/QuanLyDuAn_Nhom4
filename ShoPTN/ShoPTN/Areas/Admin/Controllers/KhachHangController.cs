@@ -215,7 +215,12 @@ namespace ShoPTN.Areas.Admin.Controllers
                         {
                             ModelState.AddModelError("ErrorExit", "");
                             ModelState.AddModelError("ErrorExitTDN", "");
-                            khachHang.Avartar = Upload(file);
+                            if (khachHang.Avartar == "NoImage.jpg") khachHang.Avartar = Upload(file);
+                            else
+                            {
+                                DeleteImages(khachHang.Avartar);
+                                khachHang.Avartar = Upload(file);
+                            }
                         }
                     }
                     else
@@ -226,6 +231,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                             ModelState.AddModelError("ErrorExit", "");
                             return View(khachHang);
                         }
+                        // nếu tên đăng nhập không trùng mà ảnh rổng
                         else if (i == 0 && file == null)
                         {
                             khachHang.Avartar = khachHang.Avartar;

@@ -64,7 +64,6 @@ namespace ShoPTN.Controllers
                 var comment = new Comment();
                 if (file != null)
                 {
-                    
                     comment.NgayDang = DateTime.Now;
                     comment.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("Id"));
                     comment.ProductId = id;

@@ -23,6 +23,7 @@ namespace ShoPTN.Models
         [Display(Name = "Khách hàng")]
         public int IdCustomer { get; set; }
 
+        [Display(Name = "Họ và tên")]
         [Required(ErrorMessage ="Vui lòng nhập họ và tên")]
         [StringLength(100)]
         public string HoVaTen { get; set; }
@@ -46,7 +47,6 @@ namespace ShoPTN.Models
         [StringLength(255)]
         [Required(ErrorMessage = "Mật khẩu không được bỏ trống")]
         [Display(Name = "Mật khẩu")]
-        [DataType(DataType.Password)]
         public string MatKhau { get; set; }
 
         [StringLength(255)]

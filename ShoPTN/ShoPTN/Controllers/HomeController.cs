@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ShoPTN.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace ShoPTN.Controllers
 {
@@ -66,12 +67,12 @@ namespace ShoPTN.Controllers
         //POST LOgin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(Customer_Login nhanvien)
+        public IActionResult Login(Customer_Login khachHang)
         {
             if (ModelState.IsValid)
             {
                 // m = nhân viên
-                var t = _context.KhachHangs.Where(m => m.TenDangNhap == nhanvien.TenDangNhap && m.MatKhau == nhanvien.MatKhau).FirstOrDefault();
+                var t = _context.KhachHangs.Where(m => m.TenDangNhap == khachHang.TenDangNhap && m.MatKhau == khachHang.MatKhau).FirstOrDefault();
                 if (t != null)
                 {
                     ModelState.AddModelError("LoginError", "");
@@ -87,10 +88,10 @@ namespace ShoPTN.Controllers
                 {
                     // trả về lỗi
                     ModelState.AddModelError("LoginError", "Tên đăng nhập hoặc mật khẩu không đúng");
-                    return View(nhanvien);
+                    return View(khachHang);
                 }
             }
-            return View(nhanvien);
+            return View(khachHang);
         }
 
         // đăng xuất
@@ -211,11 +212,197 @@ namespace ShoPTN.Controllers
         public IActionResult OrderDetail(int id)
         {
             var order = _context.DatHangChiTiets.Where(m => m.DatHangId == id).Include(m=>m.LapTop).Include(m=>m.DatHang).ToList();
-            foreach(var item in order)
-            {
-                ViewBag.InfoProduct = _context.Thongtinkythuatlaptops.Where(m => m.IdProduct == item.LapTopId).ToList();
-            }    
+            ViewBag.InfoPro = _context.Thongtinkythuatlaptops.ToList();
             return View(order);
+        }
+
+        // Get lấy dữ liệu đưa lên form 
+        public IActionResult Profile()
+        {
+            var id_customer = HttpContext.Session.GetInt32("Id");
+            var profile = _context.KhachHangs.Where(m => m.IdCustomer == id_customer).FirstOrDefault();
+            return View(profile);
+        }
+
+        //Post lấy dữ liệu từ form của get đưa vào csdl
+        [HttpPost]
+        public IActionResult Profile(IFormFile file, KhachHang khachHang)
+        {
+            if (!ModelState.IsValid)
+            {
+                    int i = 0;
+                    var check = _context.KhachHangs.Where(m => m.IdCustomer != khachHang.IdCustomer).ToList();
+                    foreach (var item in check)
+                    {
+                        if (item.TenDangNhap == khachHang.TenDangNhap)
+                        {
+                            i = 1;
+                        }
+                        else i = 0;
+                    }
+                    if (i == 0 && file != null)
+                    {
+                        var fileTypeSupported = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                        string fileExtension = Path.GetExtension(file.FileName).ToLower();
+                        if (!fileTypeSupported.Contains(fileExtension))
+                        {
+                            ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin JPG, PNG, GIF!");
+                            ModelState.AddModelError("ErrorExitTDN", "");
+                            return View(file);
+                        }
+                        else if (file.ContentType.Length > 2 * 1024 * 1024)
+                        {
+                            ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin từ 2MB trở xuống!");
+                            ModelState.AddModelError("ErrorExitTDN", "");
+                            return View(file);
+                        }
+                        else if (check != null && !fileTypeSupported.Contains(fileExtension))
+                        {
+                            ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin JPG, PNG, GIF!");
+                            ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                            return View(khachHang);
+                        }
+                        else if (file.ContentType.Length > 2 * 1024 * 1024 && check != null)
+                        {
+                            ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin từ 2MB trở xuống!");
+                            ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                            return View(file);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ErrorExit", "");
+                            ModelState.AddModelError("ErrorExitTDN", "");
+                            if(khachHang.Avartar == "NoImage.jpg") khachHang.Avartar = Upload(file);
+                            else
+                            {
+                                DeleteImages(khachHang.Avartar);
+                                khachHang.Avartar = Upload(file);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (i == 1)
+                        {
+                            ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                            ModelState.AddModelError("ErrorExit", "");
+                            return View(khachHang);
+                        }
+                        else if (i == 0 && file == null)
+                        {
+                            // nếu tên đăng nhập không tồn tại và ảnh bằng rổng
+                            khachHang.Avartar = khachHang.Avartar;
+                        }
+                    }
+                _context.Update(khachHang);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("DangXuat");
+        }
+
+        //  Get 
+        public IActionResult CreateAccount()
+        {
+            // GET: KhachHang/Create
+            ModelState.AddModelError("ErrorExit", "");
+            ModelState.AddModelError("ErrorExitTDN", "");
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult CreateAccount(IFormFile file,KhachHang khachHang)
+        {
+            if (ModelState.IsValid)
+            {
+                int i = 0;
+                var check = _context.KhachHangs.Where(m => m.IdCustomer != khachHang.IdCustomer).ToList();
+                foreach (var item in check)
+                {
+                    if (item.TenDangNhap == khachHang.TenDangNhap)
+                    {
+                        // nếu như  có tồn tại 
+                        i = 1;
+                    }
+                }
+                if (i == 0 && file != null)
+                {
+                    var fileTypeSupported = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    string fileExtension = Path.GetExtension(file.FileName).ToLower();
+                    if (!fileTypeSupported.Contains(fileExtension))
+                    {
+                        ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin JPG, PNG, GIF!");
+                        ModelState.AddModelError("ErrorExitTDN", "");
+                        return View(file);
+                    }
+                    else if (file.ContentType.Length > 2 * 1024 * 1024)
+                    {
+                        ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin từ 2MB trở xuống!");
+                        ModelState.AddModelError("ErrorExitTDN", "");
+                        return View(file);
+                    }
+                    else if (check != null && !fileTypeSupported.Contains(fileExtension))
+                    {
+                        ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin JPG, PNG, GIF!");
+                        ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                        return View(khachHang);
+                    }
+                    else if (file.ContentType.Length > 2 * 1024 * 1024 && check != null)
+                    {
+                        ModelState.AddModelError("ErrorExit", "Chỉ cho phép tập tin từ 2MB trở xuống!");
+                        ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                        return View(file);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ErrorExit", "");
+                        ModelState.AddModelError("ErrorExitTDN", "");
+                        khachHang.Avartar = Upload(file);
+                    }
+                }
+                else
+                {
+                    if (i == 1)
+                    {
+                        ModelState.AddModelError("ErrorExit", "");
+                        ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
+                        return View(khachHang);
+                    }
+                    ModelState.AddModelError("ErrorExit", "");
+                    khachHang.Avartar = "NoImage.jpg";
+                }
+                _context.Add(khachHang);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Login));
+            }
+            return View(khachHang);
+        }
+
+        // XỬ LÝ ẢNH
+        public string Upload(IFormFile file)
+        {
+            //string error = "";        
+            string UploadFileName = null;
+            if (file != null)
+            {
+                UploadFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var path = $"wwwroot\\Images\\Customer\\{ UploadFileName}";
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return UploadFileName;
+        }
+
+        public void DeleteImages(string name)
+        {
+            // lay duong dan anh
+            var path = $"wwwroot\\Images\\Customer\\" + name;
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
         }
     }
 }

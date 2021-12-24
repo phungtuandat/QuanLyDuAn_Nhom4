@@ -23,9 +23,9 @@
                         <h5 class="card-header">@item.Id</h5>
                         <div class="card-body">
                             <!---->
-                            <p class="card-text">Khách hàng :@item.KhachHang.HoVaTen</p>
-                            <p class="card-text">Ngày đặt hàng :@item.NgayDatHang</p>
-                            <p class="card-text">Tổng tiền: @item.TongTien.ToString("N0")đ</p>
+                            <p class="card-text">Khách hàng :<b>@item.KhachHang.HoVaTen</b></p>
+                            <p class="card-text">Ngày đặt hàng :<b>@item.NgayDatHang</b></p>
+                            <p class="card-text">Tổng tiền:<b> @item.TongTien.ToString("N0")đ</b></p>
                             <hr />
                             <div>
                                 @if (item.TinhTrang == 0)

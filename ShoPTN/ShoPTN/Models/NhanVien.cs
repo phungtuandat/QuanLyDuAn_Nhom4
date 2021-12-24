@@ -45,7 +45,6 @@ namespace ShoPTN.Models
         [StringLength(255)]
         [Required(ErrorMessage = "Mật khẩu không được bỏ trống")]
         [Display(Name = "Mật khẩu")]
-        [DataType(DataType.Password)]
         public string MatKhau { get; set; }
 
         [StringLength(255)]

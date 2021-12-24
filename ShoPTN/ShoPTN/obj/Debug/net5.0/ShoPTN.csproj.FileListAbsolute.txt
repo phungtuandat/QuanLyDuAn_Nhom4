@@ -492,10 +492,12 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Thongt
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\Index.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\SearchDanhMuc.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\ShoPTN.csproj.AssemblyReference.cache
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Product_Catechild.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\FitterProduct.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\CheckOut.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Cart\Orders.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\OrderList.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\OrderDetail.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Profile.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\CreateAccount.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\ShoPTN.csproj.AssemblyReference.cache
