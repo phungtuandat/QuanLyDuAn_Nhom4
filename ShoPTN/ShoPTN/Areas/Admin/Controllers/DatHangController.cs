@@ -59,7 +59,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,KhachHangId,DienThoaiGiaoHang,DiaChiGiaoHang,NgayDatHang,TinhTrang")] DatHang datHang)
+        public async Task<IActionResult> Create([Bind("Id,KhachHangId,DienThoaiGiaoHang,DiaChiGiaoHang,NgayDatHang,TinhTrang,TongTien")] DatHang datHang)
         {
             ViewData["KhachHangId"] = new SelectList(_context.KhachHangs, "IdCustomer", "HoVaTen", datHang.KhachHangId);
             if (ModelState.IsValid)
@@ -94,7 +94,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,KhachHangId,DienThoaiGiaoHang,DiaChiGiaoHang,NgayDatHang,TinhTrang")] DatHang datHang)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,KhachHangId,DienThoaiGiaoHang,DiaChiGiaoHang,NgayDatHang,TinhTrang,TongTien")] DatHang datHang)
         {
             if (id != datHang.Id)
             {
@@ -158,6 +158,13 @@ namespace ShoPTN.Areas.Admin.Controllers
         private bool DatHangExists(int id)
         {
             return _context.DatHangs.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> ChiTietDonHang(int id)
+        {
+            ViewBag.NameCustomer = _context.DatHangs.Where(m => m.Id == id).Include(m=>m.KhachHang).FirstOrDefault();
+            var banLapTopContext = _context.DatHangChiTiets.Where(m=>m.DatHangId == id).Include(d => d.DatHang).Include(d => d.LapTop);
+            return View(await banLapTopContext.ToListAsync());
         }
     }
 }

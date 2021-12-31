@@ -5,7 +5,47 @@
     var product_hightlight = Model.Where(m => m.ProductHighlights == 1 /*&& m.OutOfSock!= 1*/).ToList();// take la2 so luong dong muon lay
     var product_new = Model.Where(m => m.ProductNew == 1).ToList();
     var category = (List<DanhMucSanPham>)ViewBag.Category;
+    var BaiViet = (List<InfomationTechology>)ViewBag.BaiViet;
+    var BaiVietShow = BaiViet.Where(m => m.TinhTrang == 2).ToList();
 }
+<style>
+    button.carousel-control-next {
+        background-color: transparent;
+    }
+
+    button.carousel-control-prev {
+        /*màu trong xuốt*/
+        background-color: transparent;
+    }
+
+    h5.text-center.text-white.bg-primary.mt-4.mb-0 {
+        padding-bottom: 0px;
+    }
+
+    img.d-block {
+        width: 2000px;
+        height: 400px;
+        margin: auto;
+    }
+
+    img {
+        transition: transform .2s; /* Animation */
+        margin: 0 auto;
+    }
+
+        img.card-img-top:hover {
+            transform: scale(0.9);
+        }
+
+        img.card-img-top {
+            width: 400px;
+            height: 300px;
+        }
+
+    div.nameproduct {
+        height: 110px;
+    }
+</style>
 <div class="card mt-5 border border-dark">
     <h5 class="card-header col-2 bg-danger text-white text-center shadow">Danh mục sản phẩm</h5>
     <div class="card-body">
@@ -37,9 +77,11 @@
                     <div class="card col-md-3 border border-0">
                         <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct">
                             <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300">
-                         </a>
+                        </a>
                         <div class="card-body">
-                            <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:18px">@item.TenSanPham</a>
+                            <div class="nameproduct">
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:20px">@item.TenSanPham</a>
+                            </div>
                             @if (item.GiaKhuyenMai == 0)
                             {
                                 <p><span class="badge badge-primary text-white" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
@@ -67,6 +109,7 @@
                             {
                                 <p class="badge badge-warning mt-2" style="font-size:15px;">Sắp về</p>
                             }
+                            <p class="card-text text-danger mt-2">Số lượng: <b>@item.SoLuong</b></p>
 
                             <hr />
                             <div class="row ml-2">
@@ -104,133 +147,105 @@
                         <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct">
                             <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300" />
                         </a>
-                            <div class="card-body">
-                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:18px">@item.TenSanPham</a>
-                                @if (item.GiaKhuyenMai == 0)
-                                {
-                                    <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
-                                }
-                                else
-                                {
-                                    <p class="mr-auto">
-                                        <span class="badge badge-info text-white shadow" style="font-size:20px">
-                                            @item.GiaBan.ToString("N0")đ
-                                            <span><strike class="text-white" style="font-size:15px">@item.GiaKhuyenMai.Value.ToString("N0")đ</strike></span>
-                                        </span>
-                                    </p>
-                                }
+                        <div class="card-body">
+                            <div class="nameproduct">
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:20px">@item.TenSanPham</a>
+                            </div>
+                            @if (item.GiaKhuyenMai == 0)
+                            {
+                                <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
+                            }
+                            else
+                            {
+                                <p class="mr-auto">
+                                    <span class="badge badge-info text-white shadow" style="font-size:20px">
+                                        @item.GiaBan.ToString("N0")đ
+                                        <span><strike class="text-white" style="font-size:15px">@item.GiaKhuyenMai.Value.ToString("N0")đ</strike></span>
+                                    </span>
+                                </p>
+                            }
 
-                                <p class="card-text badge badge-success mt-2" style="font-size:15px;">@item.HangSx.TenHang</p>
-                                @if (item.OutOfSock == 1)
-                                {
-                                    <p class="card-text badge badge-danger mt-2" style="font-size:15px;">Hết hàng</p>
-                                }
-                                else if (item.OutOfSock == 2)
-                                {
-                                    <p class="badge badge-primary mt-2" style="font-size:15px;">Còn hàng</p>
-                                }
-                                else
-                                {
-                                    <p class="badge badge-outline-warning mt-2" style="font-size:15px;">Sắp về</p>
-                                }
-
-                                <!-- trạng thái còn hàng hết hàng-->
-                                <!--một máy có thể có nhiều cấu hình nên một máy có nhiều tập hợp thông tin cấu hình-->
-                                <hr />
-                                <div class="row ml-2">
-                                    <form asp-action="AddToCart" asp-controller="Cart">
-                                        <input type="hidden" value="@item.IdProduct" name="id" />
-                                        <input type="hidden" value="0" name="quanlity" />
-                                        <button type="submit" value="Mua hàng" class="btn btn-danger">Đặt hàng <i class="fa fa-cart-plus text-white"></i></button>
-                                    </form>
-                                    <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px" class="btn btn-primary ml-2">Chi tiết <i class="fa fa-info text-white"></i></a>
-                                </div>
+                            <p class="card-text badge badge-success mt-2" style="font-size:15px;">@item.HangSx.TenHang</p>
+                            @if (item.OutOfSock == 1)
+                            {
+                                <p class="card-text badge badge-danger mt-2" style="font-size:15px;">Hết hàng</p>
+                            }
+                            else if (item.OutOfSock == 2)
+                            {
+                                <p class="badge badge-primary mt-2" style="font-size:15px;">Còn hàng</p>
+                            }
+                            else
+                            {
+                                <p class="badge badge-outline-warning mt-2" style="font-size:15px;">Sắp về</p>
+                            }
+                            <p class="card-text text-danger mt-2">Số lượng: <b>@item.SoLuong</b></p>
+                            <!-- trạng thái còn hàng hết hàng-->
+                            <!--một máy có thể có nhiều cấu hình nên một máy có nhiều tập hợp thông tin cấu hình-->
+                            <hr />
+                            <div class="row ml-2">
+                                <form asp-action="AddToCart" asp-controller="Cart">
+                                    <input type="hidden" value="@item.IdProduct" name="id" />
+                                    <input type="hidden" value="0" name="quanlity" />
+                                    <button type="submit" value="Mua hàng" class="btn btn-danger">Đặt hàng <i class="fa fa-cart-plus text-white"></i></button>
+                                </form>
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px" class="btn btn-primary ml-2">Chi tiết <i class="fa fa-info text-white"></i></a>
                             </div>
                         </div>
+                    </div>
                 }
             }
         </div>
     </div>
 </div>
-<!-- customer -->
-<div class="customer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="titlepage">
-                    <h2>Customer Review</h2>
+<!-- end customer -->
+<h5 class="text-center text-white bg-primary mt-4 mb-0" style="font-weight:bold;font-size:20px;width:250px;line-height:50px;">Bài viết</h5>
+
+@if (BaiVietShow.Count() > 0)
+{
+    <div class="container-fluid mt-4 mb-5" style="width:1700px;">
+        <div id="carouselExampleControls" class="carousel slide mt-3" data-ride="carousel">
+            <div class="carousel-inner">
+                @{ int i = 0;}
+                <div class="row">
+                    @foreach (var item in BaiViet)
+                    {
+                        if (i == 1)
+                        {
+                            // neu de the a bao no se khong chay duoc vi no hieu the a chi la mot duong dan duy nhat va dung o do
+                            <div class="carousel-item active col-">
+                                <a asp-action="ChiTietBaiViet" asp-route-id="@item.IdBaiViet"><img src="~/Images/BaiViet/@item.Avatar" class="d-block" asp-action="ChiTietBaiViet" asp-round-id="@item.IdBaiViet" alt="..."></a>
+                            </div>
+
+                        }
+                        else
+                        {
+
+                            <div class="carousel-item">
+                                <a asp-action="ChiTietBaiViet" asp-route-id="@item.IdBaiViet"><img src="~/Images/BaiViet/@item.Avatar" class="d-block" asp-action="ChiTietBaiViet" asp-round-id="@item.IdBaiViet" alt="..."></a>
+                            </div>
+
+                        }
+                        i++;
+                    }
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="myCarousel" class="carousel slide customer_Carousel " data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container">
-                                <div class="carousel-caption ">
-                                    <div class="row">
-                                        <div class="col-md-9 offset-md-3">
-                                            <div class="test_box">
-                                                <i><img src="~/cla-master/images/cos.png" alt="#" /></i>
-                                                <h4>Sandy Miller</h4>
-                                                <p>ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="container">
-                                <div class="carousel-caption">
-                                    <div class="row">
-                                        <div class="col-md-9 offset-md-3">
-                                            <div class="test_box">
-                                                <i><img src="~/cla-master/images/cos.png" alt="#" /></i>
-                                                <h4>Sandy Miller</h4>
-                                                <p>ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="container">
-                                <div class="carousel-caption">
-                                    <div class="row">
-                                        <div class="col-md-9 offset-md-3">
-                                            <div class="test_box">
-                                                <i><img src="~/cla-master/images/cos.png" alt="#" /></i>
-                                                <h4>Sandy Miller</h4>
-                                                <p>ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-target="#carouselExampleControls" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-target="#carouselExampleControls" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </button>
         </div>
     </div>
-</div>
-<!-- end customer -->
+}
+else if (BaiVietShow.Count() == 0)
+{
+    <span class="badge badge-danger mt-4 mb-4" style="color:white;font-weight:bold;font-size:20px;margin-left:780px;">Không có bài viết</span>
+}
+
+
 <!--  contact -->
 <div class="contact">
     <div class="container">

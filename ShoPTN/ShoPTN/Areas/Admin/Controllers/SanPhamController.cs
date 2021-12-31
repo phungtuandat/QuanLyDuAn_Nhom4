@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -55,8 +56,8 @@ namespace ShoPTN.Areas.Admin.Controllers
         // GET: Admin/SanPham/Create
         public IActionResult Create()
         {
-            ViewData["CateChild"] = new SelectList(_context.DanhMucCons, "CatelogyChild", "TenDanhMuc");
-            ViewData["HangSxId"] = new SelectList(_context.HangSxes, "Id", "TenHang");
+            ViewData["CateChild"] = new SelectList(_context.DanhMucCons.Where(m=>m.TinhTrang == 2 && m.IdDanhMucSanPhamNavigation.TinhTrang == 2).Include(m=>m.IdDanhMucSanPhamNavigation), "CatelogyChild", "TenDanhMuc");
+            ViewData["HangSxId"] = new SelectList(_context.HangSxes.Where(m => m.TinhTrang == 2), "Id", "TenHang");
             ViewData["IdNhanVien"] = new SelectList(_context.NhanViens, "IdStaff", "HoVaTen");
             ViewData["IdTinhTrang"] = new SelectList(_context.TinhTrangs, "MaTt", "TenTt");
             ModelState.AddModelError("ErrorExit","");
@@ -70,9 +71,8 @@ namespace ShoPTN.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile file,[Bind("IdProduct,HangSxId,CateChild,IdNhanVien,IdTinhTrang,HinhAnh,GiaBan,GiaKhuyenMai,OutOfSock,TrangThai,ProductNew,ProductHighlights,SoLuong,FolderName,TenSanPham,MoTa")] SanPham sanPham)
         {
-
-            ViewData["CateChild"] = new SelectList(_context.DanhMucCons, "CatelogyChild", "TenDanhMuc", sanPham.CateChild);
-            ViewData["HangSxId"] = new SelectList(_context.HangSxes, "Id", "TenHang", sanPham.HangSxId);
+            ViewData["CateChild"] = new SelectList(_context.DanhMucCons.Where(m => m.TinhTrang == 2 && m.IdDanhMucSanPhamNavigation.TinhTrang == 2).Include(m => m.IdDanhMucSanPhamNavigation), "CatelogyChild", "TenDanhMuc");
+            ViewData["HangSxId"] = new SelectList(_context.HangSxes.Where(m => m.TinhTrang == 2), "Id", "TenHang");
             ViewData["IdNhanVien"] = new SelectList(_context.NhanViens, "IdStaff", "HoVaTen", sanPham.IdNhanVien);
             ViewData["IdTinhTrang"] = new SelectList(_context.TinhTrangs, "MaTt", "TenTt", sanPham.IdTinhTrang);
             if (ModelState.IsValid)
@@ -125,6 +125,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                     return View(sanPham);
                 }
                 if(sanPham.SoLuong > 0) sanPham.OutOfSock = 2;
+                if (sanPham.SoLuong <= 0) sanPham.OutOfSock = 1;
                 _context.Add(sanPham);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -145,8 +146,8 @@ namespace ShoPTN.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CateChild"] = new SelectList(_context.DanhMucCons, "CatelogyChild", "TenDanhMuc", sanPham.CateChild);
-            ViewData["HangSxId"] = new SelectList(_context.HangSxes, "Id", "TenHang", sanPham.HangSxId);
+            ViewData["CateChild"] = new SelectList(_context.DanhMucCons.Where(m => m.TinhTrang == 2 && m.IdDanhMucSanPhamNavigation.TinhTrang == 2).Include(m => m.IdDanhMucSanPhamNavigation), "CatelogyChild", "TenDanhMuc");
+            ViewData["HangSxId"] = new SelectList(_context.HangSxes.Where(m => m.TinhTrang == 2), "Id", "TenHang");
             ViewData["IdNhanVien"] = new SelectList(_context.NhanViens, "IdStaff", "HoVaTen", sanPham.IdNhanVien);
             ViewData["IdTinhTrang"] = new SelectList(_context.TinhTrangs, "MaTt", "TenTt", sanPham.IdTinhTrang);
             ModelState.AddModelError("ErrorExit", "");
@@ -160,6 +161,10 @@ namespace ShoPTN.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IFormFile file, [Bind("IdProduct,HangSxId,CateChild,IdNhanVien,IdTinhTrang,HinhAnh,GiaBan,GiaKhuyenMai,MoTa,OutOfSock,TrangThai,ProductNew,ProductHighlights,SoLuong,FolderName,TenSanPham,MoTa")] SanPham sanPham)
         {
+            ViewData["CateChild"] = new SelectList(_context.DanhMucCons.Where(m => m.TinhTrang == 2 && m.IdDanhMucSanPhamNavigation.TinhTrang == 2).Include(m => m.IdDanhMucSanPhamNavigation), "CatelogyChild", "TenDanhMuc");
+            ViewData["HangSxId"] = new SelectList(_context.HangSxes.Where(m => m.TinhTrang == 2), "Id", "TenHang");
+            ViewData["IdNhanVien"] = new SelectList(_context.NhanViens, "IdStaff", "HoVaTen", sanPham.IdNhanVien);
+            ViewData["IdTinhTrang"] = new SelectList(_context.TinhTrangs, "MaTt", "TenTt", sanPham.IdTinhTrang);
             if (id != sanPham.IdProduct)
             {
                 return NotFound();
@@ -194,6 +199,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                         }
                     }
                     if (sanPham.SoLuong > 0) sanPham.OutOfSock = 2;
+                    if (sanPham.SoLuong <= 0) sanPham.OutOfSock = 1;
                     _context.Update(sanPham);
                     await _context.SaveChangesAsync();
                 }
@@ -210,10 +216,6 @@ namespace ShoPTN.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CateChild"] = new SelectList(_context.DanhMucCons, "CatelogyChild", "TenDanhMuc", sanPham.CateChild);
-            ViewData["HangSxId"] = new SelectList(_context.HangSxes, "Id", "TenHang", sanPham.HangSxId);
-            ViewData["IdNhanVien"] = new SelectList(_context.NhanViens, "IdStaff", "HoVaTen", sanPham.IdNhanVien);
-            ViewData["IdTinhTrang"] = new SelectList(_context.TinhTrangs, "MaTt", "TenTt", sanPham.IdTinhTrang);
             return View(sanPham);
         }
 
@@ -259,6 +261,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // XỬ LÝ ẢNH
         public string Create_Folder(string FolderName)
         {
+            FolderName = RemoveVietnameseTone(FolderName);
             FolderName = $"wwwroot/Images/Products/{FolderName.Replace("/", "_").Replace(" ","_")}";
             if (!Directory.Exists(FolderName))
             {
@@ -301,6 +304,19 @@ namespace ShoPTN.Areas.Admin.Controllers
             // lien quan den folder co file thi phai su dung Thread
             Thread.Sleep(0);
             Directory.Delete(name, true);
+        }
+
+        public static string RemoveVietnameseTone(string text)
+        {
+            string result = text.ToLower();
+            result = Regex.Replace(result, "à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ|/g", "a");
+            result = Regex.Replace(result, "è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ|/g", "e");
+            result = Regex.Replace(result, "ì|í|ị|ỉ|ĩ|/g", "i");
+            result = Regex.Replace(result, "ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ|/g", "o");
+            result = Regex.Replace(result, "ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ|/g", "u");
+            result = Regex.Replace(result, "ỳ|ý|ỵ|ỷ|ỹ|/g", "y");
+            result = Regex.Replace(result, "đ", "d");
+            return result;
         }
     }
 }

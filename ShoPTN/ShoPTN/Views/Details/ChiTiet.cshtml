@@ -8,8 +8,8 @@
     // include KhachHang cho comment
     var comment = (List<Comment>)ViewBag.ListComment;
     // show commnet o san pham chi tiet
-    var comments = comment.Where(m => m.ProductId == Model.IdProduct);
-    int count_comment = comment.Where(m => m.ProductId == Model.IdProduct).Count();
+    var comments = comment.Where(m => m.ProductId == Model.IdProduct && m.TinhTrang == 2);
+    int count_comment = comment.Where(m => m.ProductId == Model.IdProduct && m.TinhTrang == 2).Count();
 
     Int32 Id_Customer = Convert.ToInt32(Context.Session.GetInt32("Id"));
 }

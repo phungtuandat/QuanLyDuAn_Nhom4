@@ -39,7 +39,7 @@
                         @Html.DisplayFor(modelItem => item.SoLuong)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DonGia)
+                        <span>@item.DonGia.Value.ToString("N0")<span>đ</span></span>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DatHang.Id)
@@ -48,7 +48,7 @@
                         @Html.DisplayFor(modelItem => item.LapTop.TenSanPham)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ThanhTien)
+                        <span>@item.ThanhTien.Value.ToString("N0")<span>đ</span></span>
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Sửa</a> |

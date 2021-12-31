@@ -54,10 +54,14 @@
                             @Html.DisplayFor(modelItem => item.TenDangNhap)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.MatKhau)
-                        </td>
-                        <td>
-                            <img src="~/Images/Staff/@item.Avartar" width="100"/>
+                            @if (item.Avartar == "NoImage.jpg")
+                            {
+                                <img src="~/Images/Staff/@item.Avartar" width="100" />
+                            }
+                            else
+                            {
+                                <img src="~/Images/Staff/@item.Avartar" width="100" />
+                            }
                         </td>
                         <td>
                             @if (item.Quyen == true)

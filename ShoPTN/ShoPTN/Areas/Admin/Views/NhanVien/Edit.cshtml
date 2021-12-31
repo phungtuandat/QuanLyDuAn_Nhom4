@@ -41,8 +41,10 @@
                     }
                 </div>
                 <div class="form-group">
+                    <!--Lấy giá trị của Mật khẩu nếu không chỉ có type password thì giá trị là rổng-->
                     <label asp-for="MatKhau" class="control-label"></label>
-                    <input asp-for="MatKhau" class="form-control" />
+                    <input asp-for="MatKhau" class="form-control" type="password" value="@Model.MatKhau" />
+                    <input asp-for="MatKhau" type="hidden" value="@Model.MatKhau" name="Pass_Old" />
                     <span asp-validation-for="MatKhau" class="text-danger"></span>
                 </div>
                 <div class="form-group">

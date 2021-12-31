@@ -51,7 +51,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["DatHangId"] = new SelectList(_context.DatHangs, "Id", "Id");
-            ViewData["LapTopId"] = new SelectList(_context.SanPhams, "IdProduct", "TenlapTop");
+            ViewData["LapTopId"] = new SelectList(_context.SanPhams, "IdProduct", "TenSanPham");
             return View();
         }
 
@@ -87,7 +87,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["DatHangId"] = new SelectList(_context.DatHangs, "Id", "Id", datHangChiTiet.DatHangId);
-            ViewData["LapTopId"] = new SelectList(_context.SanPhams, "IdProduct", "TenlapTop", datHangChiTiet.LapTopId);
+            ViewData["LapTopId"] = new SelectList(_context.SanPhams, "IdProduct", "TenSanPham", datHangChiTiet.LapTopId);
             return View(datHangChiTiet);
         }
 

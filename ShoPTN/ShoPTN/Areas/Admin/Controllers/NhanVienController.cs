@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +29,24 @@ namespace ShoPTN.Areas.Admin.Controllers
         {
             return View(await _context.NhanViens.ToListAsync());
         }
+        string HashSh1(string input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hashSh1 = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+                // declare stringbuilder
+                var sb = new StringBuilder(hashSh1.Length * 2);
+
+                // computing hashSh1
+                foreach (byte b in hashSh1)
+                {
+                    // "x2"
+                    sb.Append(b.ToString("X2").ToLower());
+                }
+                return sb.ToString();
+            }
+        }
         // GET: NhanVien/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -64,17 +83,13 @@ namespace ShoPTN.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 int i = 0;
-                var check = await _context.NhanViens.Where(m=>m.IdStaff != nhanVien.IdStaff).ToListAsync();
+                var check = await _context.NhanViens.Where(m => m.IdStaff != nhanVien.IdStaff).ToListAsync();
                 foreach (var item in check)
                 {
                     if (item.TenDangNhap == nhanVien.TenDangNhap)
                     {
                         // nếu như  có tồn tại 
                         i = 1;
-                    }
-                    if(item.HoVaTen == nhanVien.HoVaTen)
-                    {
-                        i = 2;
                     }
                 }
                 if (i == 0 && file != null)
@@ -120,13 +135,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                         ModelState.AddModelError("ErrorExitTDN", "Tên đăng nhập đã tồn tại");
                         return View(nhanVien);
                     }
-                    if (i == 2 && file == null)
-                    {
-                        ModelState.AddModelError("ErrorExitTDN", "Họ và tên đã tồn tại");
-                        ModelState.AddModelError("ErrorExit", "Vui lòng chọn hình ảnh");
-                        return View(nhanVien);
-                    }
-                    else if (i==1 || file == null)
+                    else if (i == 1 || file == null)
                     {
                         if (file == null)
                         {
@@ -140,14 +149,9 @@ namespace ShoPTN.Areas.Admin.Controllers
                             ModelState.AddModelError("ErrorExit", "");
                             return View(nhanVien);
                         }
-                        else if (i == 2)
-                        {
-                            ModelState.AddModelError("ErrorExitTDN", "Họ và tên đã tồn tại");
-                            ModelState.AddModelError("ErrorExit", "");
-                            return View(nhanVien);
-                        }
                     }
                 }
+                nhanVien.MatKhau = HashSh1(nhanVien.MatKhau);
                 _context.Add(nhanVien);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -178,7 +182,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormFile file, [Bind("IdStaff,HoVaTen,DienThoai,DiaChi,TenDangNhap,MatKhau,Avartar,Quyen")] NhanVien nhanVien)
+        public async Task<IActionResult> Edit(int id, string Pass_Old, IFormFile file, [Bind("IdStaff,HoVaTen,DienThoai,DiaChi,TenDangNhap,MatKhau,Avartar,Quyen")] NhanVien nhanVien)
         {
             if (id != nhanVien.IdStaff)
             {
@@ -196,10 +200,6 @@ namespace ShoPTN.Areas.Admin.Controllers
                         if (item.TenDangNhap == nhanVien.TenDangNhap)
                         {
                             i = 1;
-                        }
-                        else if (item.HoVaTen == nhanVien.HoVaTen)
-                        {
-                            i = 2;
                         }
                         else i = 0;
                     }
@@ -235,7 +235,12 @@ namespace ShoPTN.Areas.Admin.Controllers
                         {
                             ModelState.AddModelError("ErrorExit", "");
                             ModelState.AddModelError("ErrorExitTDN", "");
-                            nhanVien.Avartar = Upload(file);
+                            if (nhanVien.Avartar == "NoImage.jpg") nhanVien.Avartar = Upload(file);
+                            else
+                            {
+                                DeleteImages(nhanVien.Avartar);
+                                nhanVien.Avartar = Upload(file);
+                            }
                         }
                     }
                     else
@@ -246,17 +251,9 @@ namespace ShoPTN.Areas.Admin.Controllers
                             ModelState.AddModelError("ErrorExit", "");
                             return View(nhanVien);
                         }
-                        if (i == 2)
-                        {
-                            ModelState.AddModelError("ErrorExitTDN", "Họ và tên đã tồn tại");
-                            ModelState.AddModelError("ErrorExit", "");
-                            return View(nhanVien);
-                        }
-                        else if (i==0 && file == null)
-                        {
-                            nhanVien.Avartar = nhanVien.Avartar;
-                        }
                     }
+                    if (nhanVien.MatKhau == Pass_Old) nhanVien.MatKhau = Pass_Old;
+                    else nhanVien.MatKhau = HashSh1(nhanVien.MatKhau);
                     _context.Update(nhanVien);
                     await _context.SaveChangesAsync();
                 }

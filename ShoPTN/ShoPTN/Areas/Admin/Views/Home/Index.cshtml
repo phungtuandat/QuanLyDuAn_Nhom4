@@ -1,23 +1,128 @@
-﻿@model IEnumerable<ShoPTN.Models.SanPham>
+﻿@model IEnumerable<ShoPTN.Models.DatHang>
 @{
     ViewData["Title"] = "Home Page";
+    var OrderDetails = (List<DatHangChiTiet>)ViewBag.OrderDetalis;
+    var Product = (List<SanPham>)ViewBag.SanPham;
+    var Customer = (List<KhachHang>)ViewBag.Customer;
+    var Staff = (List<NhanVien>)ViewBag.Staff;
 }
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+
+<script>
+window.onload = function () {
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	exportEnabled: true,
+	animationEnabled: true,
+	title: {
+        text: "SALES CHART"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 180,
+		toolTipContent: "<b>{label}</b>: {y}%",
+		showInLegend: "true",
+		legendText: "{label}",
+		indexLabel: "{label} - {y}%",
+		dataPoints: @Html.Raw(ViewBag.DataPoints)
+	}]
+});
+chart.render();
+    }
+</script>
+
 
 <div class="container-fluid mt-3">
-    @if (Model != null)
-    {
+    <div class="row">
+        <!-- tổng hóa đơn-->
+        <div class="col-3">
+            <div class="card" style="border-radius:0px;">
+                <h5 class="card-header">TỔNG HÓA ĐƠN</h5>
+                <div class="card-body">
+                    <p class="card-text">@Model.Count()</p>
+                </div>
+            </div>
+        </div>
+
+        @{var sum_money = 0; }
         @foreach (var item in Model)
         {
-            @item.TenSanPham;
-            @item.GiaBan
-            // chuyển về html dạng thô
-            @Html.Raw(item.MoTa);
+            sum_money += item.TongTien;
         }
-    }
-    else
-    {
+        <!-- tổng tiền-->
+        <div class="col-3">
+            <div class="card" style="border-radius:0px;">
+                <h5 class="card-header">TỔNG THU NHẬP</h5>
+                <div class="card-body">
+                    <p class="card-text">@sum_money.ToString("N0")<span>đ</span></p>
+                </div>
+            </div>
+        </div>
 
-    }
+        @{ var quanlity_buy = 0;}
+        @foreach (var item in OrderDetails)
+        {
+            quanlity_buy += Convert.ToInt32(item.SoLuong);
+        }
+
+        <!-- tổng sản phẩm bán được-->
+        <div class="col-3">
+            <div class="card" style="border-radius:0px;">
+                <h5 class="card-header">SẢN PHẨM ĐÃ BÁN</h5>
+                <div class="card-body">
+                    <p class="card-text">TỔNG SẢN PHẨM: @OrderDetails.Count()</p>
+                    <p class="card-text">TỔNG SỐ LƯỢNG: @quanlity_buy</p>
+                </div>
+            </div>
+        </div>
+
+
+        @{ var quanlity_product = 0;}
+        @foreach (var item in Product)
+        {
+            quanlity_product += Convert.ToInt32(item.SoLuong);
+        }
+        <!-- tổng sản phẩm-->
+        <div class="col-3">
+            <div class="card" style="border-radius:0px;">
+                <h5 class="card-header">SẢN PHẨM</h5>
+                <div class="card-body">
+                    <p class="card-text">TỔNG SẢN PHẨM: @Product.Count()</p>
+                    <p class="card-text">TỔNG SỐ LƯỢNG: @quanlity_product</p>
+                </div>
+            </div>
+        </div>
+        <!-- biểu đồ-->
+        <div class="row">
+            <div class="col-8 mt-3">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+            </div>
+            <!---->
+            <div class="col-4 mt-3 ml-4">
+                <!-- tổng khách hàng-->
+                <div class="col-6 mt-4">
+                    <div class="card" style="border-radius:0px;">
+                        <h5 class="card-header">NGƯỜI DÙNG</h5>
+                        <div class="card-body">
+                            <p class="card-text">TỔNG NGƯỜI DÙNG: @Customer.Count()</p>
+                            <p class="card-text">TỔNG SỐ TRUY CẬP: @Context.Session.GetInt32("OnlineCus")</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- tổng staff-->
+                <div class="col-6 mt-4">
+                    <div class="card" style="border-radius:0px;">
+                        <h5 class="card-header">NHÂN VIÊN</h5>
+                        <div class="card-body">
+                            <p class="card-text">TỔNG NGƯỜI DÙNG: @Staff.Count()</p>
+                            <p class="card-text">TỔNG SỐ TRUY CẬP: @Context.Session.GetInt32("OnlineStaff")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-

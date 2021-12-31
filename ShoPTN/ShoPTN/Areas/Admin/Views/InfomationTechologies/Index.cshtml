@@ -22,9 +22,6 @@
                         @Html.DisplayNameFor(model => model.LuotXem)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NoiDung)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Avatar)
                     </th>
                     <th>
@@ -47,23 +44,16 @@
                             @Html.DisplayFor(modelItem => item.LuotXem)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NoiDung)
-                        </td>
-                        <td>
                             <img src="~/Images/BaiViet/@item.Avatar" width="100"/>
                         </td>
                         <td>
-                            @if (item.TinhTrang == 0)
+                            @if (item.TinhTrang == 1)
                             {
-                                <span class="badge badge-danger" style="font-size:15px">Bài viết mới</span>
+                                <span class="badge badge-danger" style="font-size:15px">Ẩn</span>
                             }
-                            else if (item.TinhTrang == 1)
+                            else if (item.TinhTrang == 2)
                             {
-                                <span class="badge badge-danger" style="font-size:15px">Đã duyệt</span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-danger" style="font-size:15px">Hủy duyệt</span>
+                                <span class="badge badge-primary" style="font-size:15px">Hiện</span>
                             }
                         </td>
                         <td>

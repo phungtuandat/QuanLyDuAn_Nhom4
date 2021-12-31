@@ -49,7 +49,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // GET: Admin/DanhMucCons/Create
         public IActionResult Create()
         {
-            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams, "IdDanhMuc", "TenDanhMuc");
+            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams.Where(m=>m.TinhTrang == 2), "IdDanhMuc", "TenDanhMuc");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams, "IdDanhMuc", "TenDanhMuc", danhMucCon.IdDanhMucSanPham);
+            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams.Where(m => m.TinhTrang == 2), "IdDanhMuc", "TenDanhMuc");
             return View(danhMucCon);
         }
 
@@ -83,7 +83,7 @@ namespace ShoPTN.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams, "IdDanhMuc", "TenDanhMuc", danhMucCon.IdDanhMucSanPham);
+            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams.Where(m => m.TinhTrang == 2), "IdDanhMuc", "TenDanhMuc");
             return View(danhMucCon);
         }
 
@@ -119,7 +119,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams, "IdDanhMuc", "TenDanhMuc", danhMucCon.IdDanhMucSanPham);
+            ViewData["IdDanhMucSanPham"] = new SelectList(_context.DanhMucSanPhams.Where(m => m.TinhTrang == 2), "IdDanhMuc", "TenDanhMuc");
             return View(danhMucCon);
         }
 

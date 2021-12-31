@@ -96,8 +96,7 @@ namespace ShoPTN.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorExit", "Vui lòng chọn hình ảnh");
-                    return View(comment);
+                    comment.ImagesPost = "NoImage.jpg";
                 }                
                 _context.Add(comment);
                 await _context.SaveChangesAsync();

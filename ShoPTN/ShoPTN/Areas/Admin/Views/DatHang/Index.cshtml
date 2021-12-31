@@ -93,11 +93,12 @@
                         @Html.DisplayFor(modelItem => item.KhachHang.HoVaTen)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TongTien)
+                        <span>@item.TongTien.ToString("N0")<span>đ</span></span>
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Sửa</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
+                        <a asp-action="ChiTietDonHang" asp-route-id="@item.Id" class="btn btn-danger">Xem chi tiết</a>
                     </td>
                 </tr>
                 }

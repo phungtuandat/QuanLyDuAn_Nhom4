@@ -403,7 +403,6 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\HangSx
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\HangSx\Index.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Home\Index.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Home\Login.cshtml.g.cs
-D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Home\Privacy.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\Home\Profiles.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\ImagesProduct\Create.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\ImagesProduct\Delete.cshtml.g.cs
@@ -500,4 +499,10 @@ D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\OrderList.csh
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\OrderDetail.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Profile.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\CreateAccount.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\BaiViet.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\ChiTietBaiViet.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\AllProducts.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\FitterAllProduct.cshtml.g.cs
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Views\Home\Search.cshtml.g.cs
 D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\ShoPTN.csproj.AssemblyReference.cache
+D:\DoAnASP,NETCORE\ShoPTN\ShoPTN\obj\Debug\net5.0\Razor\Areas\Admin\Views\DatHang\ChiTietDonHang.cshtml.g.cs

@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Libary\" />
     <Folder Include="wwwroot\Images\BaiViet\" />
   </ItemGroup>
 

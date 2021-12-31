@@ -67,7 +67,7 @@ namespace ShoPTN.Controllers
                     comment.NgayDang = DateTime.Now;
                     comment.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("Id"));
                     comment.ProductId = id;
-                    comment.TinhTrang = 0;
+                    comment.TinhTrang = 2;
                     comment.NoiDung = noidung;
                     comment.ImagesPost = Upload(file);
                     // nhân viên sẻ tạo tài khoản khách hàng được
@@ -79,7 +79,7 @@ namespace ShoPTN.Controllers
                     comment.NgayDang = DateTime.Now;
                     comment.CustomerId = Convert.ToInt32(HttpContext.Session.GetInt32("Id"));
                     comment.ProductId = id;
-                    comment.TinhTrang = 0;
+                    comment.TinhTrang = 2;
                     comment.NoiDung = noidung;
 
                     comment.ImagesPost = "NoImage.jpg";

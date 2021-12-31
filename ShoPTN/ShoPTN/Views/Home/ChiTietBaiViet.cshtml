@@ -1,0 +1,17 @@
+﻿@model ShoPTN.Models.InfomationTechology
+@{ 
+    ViewBag.Title = "Chi tiết bài viết";
+}
+<div class="container">
+    <div class="card mt-3">
+        <h5 class="card-header">@ViewBag.Title</h5>
+        <div class="card-body">
+            <h5 class="card-title"><b>@Model.Title</b></h5>
+            <img src="~/Images/BaiViet/@Model.Avatar" width="500" style="margin-left:300px;"/>
+            <br />
+            <span class="col-2" style="margin-left:350px">Lượt xem :@Model.LuotXem</span>
+            <span class="col-3">Ngày đăng: @Model.NgayDang</span>
+            @Html.Raw(Model.NoiDung)
+        </div>
+    </div>
+</div>

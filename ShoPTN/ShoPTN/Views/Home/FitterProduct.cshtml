@@ -14,6 +14,13 @@
         img:hover {
             transform: scale(0.9);
         }
+        img.card-img-top {
+            width: 400px;
+            height: 300px;
+        }
+        div.nameproduct {
+            height: 110px;
+        }
 </style>
 @if (Model != null)
 {
@@ -35,7 +42,9 @@
                                 <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300">
                             </a>
                             <div class="card-body">
-                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px">@item.TenSanPham</a>
+                                <div class="nameproduct">
+                                    <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:20px">@item.TenSanPham</a>
+                                </div>
                                 @if (item.GiaKhuyenMai == 0)
                                 {
                                     <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
@@ -63,7 +72,7 @@
                                 {
                                     <p class="badge badge-outline-warning mt-2" style="font-size:15px;">Sắp về</p>
                                 }
-
+                                <p class="card-text text-danger mt-2">Số lượng: <b>@item.SoLuong</b></p>
                                 <!-- trạng thái còn hàng hết hàng-->
                                 <!--một máy có thể có nhiều cấu hình nên một máy có nhiều tập hợp thông tin cấu hình-->
                                 <hr />

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -132,13 +134,32 @@ namespace ShoPTN.Areas.Admin.Controllers
                         }
                     }
                 }
+                khachHang.MatKhau = HashSh1(khachHang.MatKhau);
                 _context.Add(khachHang);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(khachHang);
         }
+        // SHA1
+        string HashSh1(string input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hashSh1 = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
 
+                // declare stringbuilder
+                var sb = new StringBuilder(hashSh1.Length * 2);
+
+                // computing hashSh1
+                foreach (byte b in hashSh1)
+                {
+                    // "x2"
+                    sb.Append(b.ToString("X2").ToLower());
+                }
+                return sb.ToString();
+            }
+        }
         // GET: KhachHang/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -162,7 +183,7 @@ namespace ShoPTN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormFile file ,[Bind("IdCustomer,HoVaTen,DienThoai,DiaChi,TenDangNhap,MatKhau,Avartar")] KhachHang khachHang)
+        public async Task<IActionResult> Edit(int id, string Pass_Old,IFormFile file ,[Bind("IdCustomer,HoVaTen,DienThoai,DiaChi,TenDangNhap,MatKhau,Avartar")] KhachHang khachHang)
         {
             if (id != khachHang.IdCustomer)
             {
@@ -231,12 +252,9 @@ namespace ShoPTN.Areas.Admin.Controllers
                             ModelState.AddModelError("ErrorExit", "");
                             return View(khachHang);
                         }
-                        // nếu tên đăng nhập không trùng mà ảnh rổng
-                        else if (i == 0 && file == null)
-                        {
-                            khachHang.Avartar = khachHang.Avartar;
-                        }
                     }
+                    if (Pass_Old == khachHang.MatKhau) khachHang.MatKhau = Pass_Old;
+                    else khachHang.MatKhau = HashSh1(khachHang.MatKhau);
                     _context.Update(khachHang);
                     await _context.SaveChangesAsync();
                 }

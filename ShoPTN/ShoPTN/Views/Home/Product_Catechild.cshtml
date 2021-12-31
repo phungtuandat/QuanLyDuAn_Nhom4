@@ -4,6 +4,7 @@
     var ListHangSx = (List<HangSx>)ViewBag.HangSx;
     var ListCate = (List<DanhMucCon>)ViewBag.CateChild;
     var ListTinhTrang = (List<TinhTrang>)ViewBag.TinhTrang;
+    // lấy danh mục con
     var Id_CateChild = (DanhMucCon)ViewBag.Id;
 }
 <style>
@@ -15,12 +16,20 @@
     img:hover {
         transform: scale(0.9);
     }
+        img.card-img-top {
+            width: 400px;
+            height: 300px;
+        }
+    div.nameproduct {
+        height: 110px;
+    }
 </style>
 <div class="card border border-info mt-5 shadow">
     <h5 class="card-header bg-info text-white text-center" style="font-size:20px;font-weight:bold;">@ViewBag.Title</h5>
     <div class="card-body">
         @if (Model.Count > 0)
         {
+            <!-- lọc các sản phẩm thuộc Danh Mục Con này theo danh mục con id ở Id_CateChild.CatelogyChild-->
             <form asp-action="FitterProduct" asp-controller="Home" asp-route-id="@Id_CateChild.CatelogyChild">
                 <div class="container row">
                     <label class="mt-2 col-1">Bộ lọc</label>
@@ -60,7 +69,9 @@
                             <img class="card-img-top" src="~/@item.FolderName.Replace("wwwroot/","")/@item.HinhAnh" alt="@item.TenSanPham" width="300" height="300">
                         </a>
                         <div class="card-body">
-                            <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:15px">@item.TenSanPham</a>
+                            <div class="nameproduct">
+                                <a asp-controller="Details" asp-action="ChiTiet" asp-route-id="@item.IdProduct" style="font-size:20px">@item.TenSanPham</a>
+                            </div>
                             @if (item.GiaKhuyenMai == 0)
                             {
                                 <p><span class="badge badge-info text-white shadow" style="font-size:20px">@item.GiaBan.ToString("N0")đ</span></p>
@@ -88,7 +99,7 @@
                             {
                                 <p class="badge badge-outline-warning mt-2" style="font-size:15px;">Sắp về</p>
                             }
-
+                            <p class="card-text text-danger mt-2">Số lượng: <b>@item.SoLuong</b></p>
                             <!-- trạng thái còn hàng hết hàng-->
                             <!--một máy có thể có nhiều cấu hình nên một máy có nhiều tập hợp thông tin cấu hình-->
                             <hr />

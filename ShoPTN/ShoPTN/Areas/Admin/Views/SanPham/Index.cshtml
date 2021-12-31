@@ -38,18 +38,6 @@
 
                         @Html.DisplayNameFor(model => model.CateChildNavigation)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.HangSx)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdNhanVienNavigation)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdTinhTrangNavigation)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SoLuong)
-                    </th>
                     <th width="120"></th>
                 </tr>
             </thead>
@@ -69,12 +57,12 @@
                             {<img src="~/@item.FolderName.Replace("wwwroot/", "")//@item.HinhAnh" width="100" />}
                         </td>
                         <td width="30">
-                            @Html.DisplayFor(modelItem => item.GiaBan)
+                            <span>@item.GiaBan.ToString("N0")đ</span>
                         </td>
                         <td width="30">
                             @if (item.OutOfSock == 1)
                             {
-                                <span class="badge badge-outline-primary">Hết hàng</span>
+                                <span class="badge badge-outline-danger">Hết hàng</span>
                             }
                             else if (item.OutOfSock == 2)
                             {
@@ -86,13 +74,13 @@
                             }
                         </td>
                         <td width="30">
-                            @if (item.TrangThai == 1)
+                            @if (item.TrangThai == 2)
                             {
                                 <span class="badge badge-outline-primary">Hiện</span>
                             }
                             else
                             {
-                                <span class="badge badge-outline-primary">Ẩn</span>
+                                <span class="badge badge-outline-danger">Ẩn</span>
                             }
                         </td>
                         <td width="30">
@@ -102,33 +90,21 @@
                             }
                             else
                             {
-                                <span class="badge badge-outline-primary">Không</span>
+                                <span class="badge badge-outline-danger">Không</span>
                             }
                         </td>
                         <td width="30">
-                            @if (item.ProductNew == 1)
+                            @if (item.ProductHighlights == 1)
                             {
                                 <span class="badge badge-outline-primary">Nổi bật</span>
                             }
                             else
                             {
-                                <span class="badge badge-outline-primary">Không</span>
+                                <span class="badge badge-outline-danger">Không</span>
                             }
                         </td>
                         <td width="50">
                             @Html.DisplayFor(modelItem => item.CateChildNavigation.TenDanhMuc)
-                        </td>
-                        <td width="50">
-                            @Html.DisplayFor(modelItem => item.HangSx.TenHang)
-                        </td>
-                        <td width="50">
-                            @Html.DisplayFor(modelItem => item.IdNhanVienNavigation.HoVaTen)
-                        </td>
-                        <td width="50">
-                            @Html.DisplayFor(modelItem => item.IdTinhTrangNavigation.TenTt)
-                        </td>
-                        <td width="30">
-                            @Html.DisplayFor(modelItem => item.SoLuong)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.IdProduct" class="btn btn-info">Sửa</a> |

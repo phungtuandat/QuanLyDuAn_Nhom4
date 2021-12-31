@@ -1,4 +1,8 @@
 ﻿@model ICollection<ShoPTN.Models.DatHang>
+@{ 
+    var images_details = (List<DatHangChiTiet>)ViewBag.OrderDetails;
+}
+@using Microsoft.EntityFrameworkCore;
 <div class="card mt-3 border-warning">
     <h5 class="card-header bg-warning" style="font-weight:bold;">Đơn hàng</h5>
     <div class="card-body">
@@ -11,6 +15,10 @@
                 Đơn hàng đã hủy <span class="badge badge-light">@Model.Where(m => m.TinhTrang == 2).ToList().Count()</span>
             </a>
 
+            <a class="bg-danger ml-2 text-white" style="width:180px;line-height:40px;text-align:center;">
+                Đơn hàng đang giao <span class="badge badge-light">@Model.Where(m => m.TinhTrang == 4).ToList().Count()</span>
+            </a>
+
             <a class="bg-info ml-2 text-white" style="width:180px;line-height:40px;text-align:center;">
                 Đơn hàng đã nhận <span class="badge badge-light">@Model.Where(m => m.TinhTrang == 9).ToList().Count()</span>
             </a>
@@ -18,12 +26,15 @@
         <div class="row mt-3">
             @foreach(var item in Model)
             {
-                <div class="col-3">
-                    <div class="card">
-                        <h5 class="card-header">@item.Id</h5>
+                <div class="col-3 mt-2">
+                    <div class="card border border-warning shadow">
+                        @{var image_avatar = images_details.Where(m => m.DatHangId == item.Id).FirstOrDefault();}
+                        <h5 class="card-header bg-danger text-white">@item.Id</h5>
                         <div class="card-body">
                             <!---->
                             <p class="card-text">Khách hàng :<b>@item.KhachHang.HoVaTen</b></p>
+                            @{ var count_soluong = images_details.Where(m => m.DatHangId == item.Id).ToList().Count();}
+                            <p class="card-text">Số lượng sản phẩm :<b>@count_soluong</b></p>
                             <p class="card-text">Ngày đặt hàng :<b>@item.NgayDatHang</b></p>
                             <p class="card-text">Tổng tiền:<b> @item.TongTien.ToString("N0")đ</b></p>
                             <hr />

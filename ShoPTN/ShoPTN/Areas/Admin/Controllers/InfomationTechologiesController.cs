@@ -64,8 +64,8 @@ namespace ShoPTN.Areas.Admin.Controllers
             {
                 infomationTechology.LuotXem = 0;
                 infomationTechology.NgayDang = DateTime.Now;
-                // 0: mới 1: được duyệt , 2 :Hủy
-                infomationTechology.TinhTrang = 0;
+                //2 hiện 1 ẩn:
+                infomationTechology.TinhTrang = 2;
                 if (file != null)
                 {
                     var fileTypeSupported = new[] { ".jpg", ".jpeg", ".png", ".gif" };
@@ -137,7 +137,6 @@ namespace ShoPTN.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        // 0: mới 1: được duyệt , 2 :Hủy
                         if (file != null)
                         {
                             var fileTypeSupported = new[] { ".jpg", ".jpeg", ".png", ".gif" };

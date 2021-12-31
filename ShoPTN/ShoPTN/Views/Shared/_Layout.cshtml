@@ -64,35 +64,32 @@
                                         <a class="nav-link" asp-action="Index" asp-controller="Home">Trang Chủ</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="computer.html">Sản phẩm</a>
+                                        <a class="nav-link" asp-action="AllProducts" asp-controller="Home">Sản phẩm</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="laptop.html">Laptop</a>
+                                        <a class="nav-link" asp-controller="Home" asp-action="BaiViet">Bài Viết</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="product.html">Products</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
+                                        <a class="nav-link" asp-controller="Cart" asp-action="Index">Giỏ Hàng</a>
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false" style="margin-left:20px;">
                                             Tài khoản
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <img src="~/Images/Customer/@Context.Session.GetString("Avatar") " width="28" class="dropdown-item" />
+                                            <img src="~/Images/Customer/@Context.Session.GetString("Avatar")"/>
                                             <span class="dropdown-item bg-primary" style="color:white;">@Context.Session.GetString("FullName")</span>
-                                            <a class="dropdown-item mb-2" asp-action="Profile">Thông tin</a>
+                                            <a class="dropdown-item mb-2 mt-3" asp-action="Profile" asp-controller="Home">Thông tin</a>
                                             <a class="dropdown-item mb-2" asp-controller="Home" asp-action="OrderList">Đơn hàng</a>
                                             <hr />
                                             <a class="dropdown-item" asp-action="DangXuat" asp-controller="Home">Đăng xuất</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item d_none">
-                                        <a class="nav-link" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                                    </li>
-
                                 </ul>
+                                <form class="form-inline my-2 my-lg-0" asp-controller="Home" asp-action="Search">
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Key">
+                                    <button class="btn btn-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                                </form>
                             </div>
                         </nav>
                     </div>

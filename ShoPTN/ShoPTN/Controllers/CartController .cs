@@ -29,6 +29,7 @@ namespace ShoPTN.Controllers
         {
             // return về trang Có Action Index
             // TRẢ VỀ DANH SÁCH GIỎ HÀNG
+            ModelState.AddModelError("ErrorCart", "");
             return View(GetCartItems());
         }
 
@@ -68,18 +69,30 @@ namespace ShoPTN.Controllers
             var item = cart.Find(p => p.Products.IdProduct == id);
             if (item != null)
             {
-                if (quanlity == 0) item.Quantity++;
-                else item.Quantity += quanlity;
+                if(quanlity <= product.SoLuong)
+                {
+                    if (quanlity == 0) item.Quantity++;
+                    else item.Quantity += quanlity;
+                }
+                else item.Quantity = 1;
             }
             else
             {
-                if(quanlity == 0)
+                if (quanlity <= product.SoLuong)
                 {
-                    cart.Add(new Cart() { Products = product, Quantity = 1 });
+                    if (quanlity == 0)
+                    {
+                        cart.Add(new Cart() { Products = product, Quantity = 1 });
+                    }
+                    else
+                        cart.Add(new Cart() { Products = product, Quantity = quanlity });
                 }
                 else
-                    cart.Add(new Cart() { Products = product, Quantity = quanlity });
-
+                {
+                    ModelState.AddModelError("ErrorCart", "Số lượng không còn đủ");
+                    if (product.SoLuong > 0) cart.Add(new Cart() { Products = product, Quantity = 1 });
+                }
+               
             }
             SaveCartSession(cart);
             return RedirectToAction("Index", "Cart");
@@ -109,9 +122,20 @@ namespace ShoPTN.Controllers
         {
             var cart = GetCartItems();
             var item = cart.Find(p => p.Products.IdProduct == id);
+            var product = _context.SanPhams
+                .FirstOrDefault(m => m.IdProduct == id);
             if (item != null)
             {
-                item.Quantity = quantity;
+                if (quantity <= product.SoLuong)
+                    item.Quantity = quantity;
+                else
+                {
+                    ModelState.AddModelError("ErrorCart", "Số lượng không còn đủ");
+                    if (product.SoLuong >= 1)
+                    {
+                        item.Quantity = 1;
+                    }
+                }
             }
             SaveCartSession(cart);
             return RedirectToAction("Index", "Cart");
@@ -165,8 +189,8 @@ namespace ShoPTN.Controllers
             _context.SaveChanges();
             // xóa session giỏ hàng
             HttpContext.Session.Remove("ShopCart");
+            // trả về trang view có name giống với tên Action
             return View();
         }
-
     }
 }
